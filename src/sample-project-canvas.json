@@ -1,0 +1,105 @@
+{
+  "titleProject": "Ruangan",
+  "createProjectFrom": "import_text",
+  "exportProjectTo": "file",
+  "platform": "php-laravel",
+  "crudType": "modal",
+  "importData": {
+    "fileExtension": "xlsx"
+  },
+  "exportData": {
+    "fileExtension": "csv"
+  },
+  "showData": {
+    "type": "list"
+  },
+  "blueprintForm": [
+    [
+      {
+        "label": "Nama ruangan",
+        "tag": "input",
+        "attributes": {
+          "type": "text",
+          "class": "form-control",
+          "id": "create-nama_ruangan",
+          "name": "nama_ruangan",
+          "placeholder": "Cth. Ruang rapat 1",
+          "disabled": false,
+          "readonly": false,
+          "autofocus": true
+        },
+        "validation": {
+          "type": "serverside",
+          "rules": "required|max:255|unique:m_ruangan"
+        }
+      },
+      {
+        "label": "Lantai ruangan",
+        "tag": "input",
+        "attributes": {
+          "type": "text",
+          "class": "form-control",
+          "id": "create-lantai_ruangan",
+          "name": "lantai_ruangan",
+          "placeholder": "Cth. Lt 1",
+          "disabled": false,
+          "readonly": false
+        },
+        "validation": {
+          "type": "serverside",
+          "rules": "required"
+        }
+      },
+      {
+        "label": "Kapasitas ruangan",
+        "tag": "input",
+        "attributes": {
+          "type": "text",
+          "class": "form-control",
+          "id": "create-kapasitas",
+          "name": "kapasitas",
+          "placeholder": "Cth. 50",
+          "disabled": false,
+          "readonly": false
+        },
+        "validation": {
+          "type": "serverside",
+          "rules": "required|numeric"
+        }
+      },
+      {
+        "label": "Keterangan",
+        "tag": "textarea",
+        "attributes": {
+          "class": "form-control",
+          "id": "create-keterangan",
+          "name": "keterangan",
+          "placeholder": "Keterangan tambahan",
+          "row": 10,
+          "column": 20,
+          "disabled": false,
+          "readonly": false
+        },
+        "validation": {
+          "type": "serverside",
+          "rules": "nullable"
+        }
+      },
+      {
+        "label": "Foto",
+        "tag": "input",
+        "attributes": {
+          "type": "file",
+          "class": "form-control",
+          "id": "create-foto_ruangan",
+          "name": "foto_ruangan"
+        },
+        "validation": {
+          "type": "serverside",
+          "rules": "required|mimes:jpg,jpeg,png|max:2048"
+        },
+        "storePath": "/foto_ruangan"
+      }
+    ]
+  ]
+}

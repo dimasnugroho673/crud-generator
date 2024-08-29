@@ -1,0 +1,855 @@
+import React, { Component } from "react";
+import { withRouter } from 'react-router-dom';
+import ReactDOM from "react-dom";
+import ReactDOMServer from "react-dom/server";
+
+
+class ProjectCanvas extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            errorMessage: null,
+            isLoading: false,
+            results: [],
+            projectCanvas: {
+                createProjectFrom: null
+            },
+            blueprintFormHtmlString: ""
+            // projectCanvas: {
+            //     titleProject: 'Ruangan', // title is page or class page
+            //     createProjectFrom: 'import_text', // import_file, import_text, ui_wizard
+            //     exportProjectTo: 'file', // file, text
+            //     platform: 'php-laravel', // php-laravel, php-ci3, php-ci4
+            //     crudType: 'modal', // modal, page
+            //     importData: { // fill false to avoid this feature
+            //         fileExtension: 'xlsx'
+            //     },
+            //     exportData: { // fill false to avoid this feature
+            //         fileExtension: 'csv'
+            //     },
+            //     showData: { // fill false to avoid this feature
+            //         type: 'list',
+            //     },
+            //     blueprintForm: [
+            //         // by row
+            //         [
+            //             {
+            //                 label: 'Nama ruangan',
+            //                 tag: 'input',
+            //                 attributes: {
+            //                     type: 'text',
+            //                     class: 'form-control',
+            //                     id: 'create-nama_ruangan',
+            //                     name: 'nama_ruangan',
+            //                     placeholder: 'Cth. Ruang rapat 1',
+            //                     disabled: false,
+            //                     readonly: false,
+            //                     autofocus: true
+            //                 },
+            //                 validation: {
+            //                     type: 'serverside', // serverside, clientside
+            //                     rules: 'required|max:255|unique:unique:m_ruangan'
+            //                 }
+            //             },
+            //             {
+            //                 label: 'Lantai ruangan',
+            //                 tag: 'input',
+            //                 attributes: {
+            //                     type: 'text',
+            //                     class: 'form-control',
+            //                     id: 'create-lantai_ruangan',
+            //                     name: 'lantai_ruangan',
+            //                     placeholder: 'Cth. Lt 1',
+            //                     disabled: false,
+            //                     readonly: false
+            //                 },
+            //                 validation: {
+            //                     type: 'serverside', // serverside, clientside
+            //                     rules: 'required'
+            //                 }
+            //             },
+            //             {
+            //                 label: 'Kapasitas ruangan',
+            //                 tag: 'input',
+            //                 attributes: {
+            //                     type: 'text',
+            //                     class: 'form-control',
+            //                     id: 'create-kapasitas',
+            //                     name: 'kapasitas',
+            //                     placeholder: 'Cth. 50',
+            //                     disabled: false,
+            //                     readonly: false
+            //                 },
+            //                 validation: {
+            //                     type: 'serverside', // serverside, clientside
+            //                     rules: 'required|numeric'
+            //                 }
+            //             },
+            //             {
+            //                 label: 'Keterangan',
+            //                 tag: 'textarea',
+            //                 attributes: {
+            //                     class: 'form-control',
+            //                     id: 'create-keterangan',
+            //                     name: 'keterangan',
+            //                     placeholder: 'Keterangan tambahan',
+            //                     row: 10,
+            //                     column: 20,
+            //                     disabled: false,
+            //                     readonly: false
+            //                 },
+            //                 validation: {
+            //                     type: 'serverside', // serverside, clientside
+            //                     rules: 'nullable'
+            //                 }
+            //             },
+            //             {
+            //                 label: 'Foto',
+            //                 tag: 'input',
+            //                 attributes: {
+            //                     type: 'file',
+            //                     class: 'form-control',
+            //                     id: 'create-foto_ruangan',
+            //                     name: 'foto_ruangan'
+            //                 },
+            //                 validation: {
+            //                     type: 'serverside', // serverside, clientside
+            //                     rules: 'required|mimes:jpg,jpeg,png|max:2048'
+            //                 },
+            //                 storePath: '/foto_ruangan' // can null
+            //             },
+            //             // {
+            //             //     label: 'Alamat email',
+            //             //     tag: 'input',
+            //             //     attributes: {
+            //             //         type: 'email',
+            //             //         class: 'form-control',
+            //             //         id: 'add-email',
+            //             //         name: 'email',
+            //             //         placeholder: 'Email valid...',
+            //             //         disabled: false,
+            //             //         readonly: false,
+            //             //         autofocus: false
+            //             //     }
+            //             // },
+            //             // {
+            //             //     label: 'Password',
+            //             //     tag: 'input',
+            //             //     attributes: {
+            //             //         type: 'password',
+            //             //         class: 'form-control',
+            //             //         id: 'add-password',
+            //             //         name: 'password',
+            //             //         placeholder: 'Password...',
+            //             //         disabled: false,
+            //             //         readonly: true,
+            //             //         autofocus: false
+            //             //     }
+            //             // },
+            //             // {
+            //             //     label: 'Jenis kelamin',
+            //             //     tag: 'select',
+            //             //     options: [
+            //             //         {
+            //             //             label: 'Pilih jenis kelamin',
+            //             //             value: '',
+            //             //             selected: true,
+            //             //             disabled: true
+            //             //         },
+            //             //         {
+            //             //             label: 'Laki-laki',
+            //             //             value: 'male',
+            //             //         },
+            //             //         {
+            //             //             label: 'Perempuan',
+            //             //             value: 'female'
+            //             //         },
+            //             //     ],
+            //             //     attributes: {
+            //             //         class: 'form-select',
+            //             //         id: 'add-jenis_kelamin',
+            //             //         name: 'jenis_kelamin',
+            //             //         disabled: false,
+            //             //         readonly: false,
+            //             //     }
+            //             // },
+            //         ]
+
+            //     ]
+            // }
+        }
+        this.handleImportProjectTemplate = this.handleImportProjectTemplate.bind(this)
+        this.handleStartCanvas = this.handleStartCanvas.bind(this)
+    }
+
+    generateCanvasFromState() {
+        if (this.state.projectCanvas['platform'] === undefined) {
+            return;
+        }
+
+        let blueprints = this.state.projectCanvas.blueprintForm
+        let totalRow = blueprints.length
+
+        function generateX(elm) {
+            // GENERATE DYNAMIC ATTRIBUTES
+            let dynamicAttributes = {}
+            for (const key in elm.attributes) {
+                if (elm.attributes.hasOwnProperty(key)) {
+                    if ((typeof elm.attributes[key]) != "boolean") {
+                        dynamicAttributes[key] = elm.attributes[key]
+                    } else {
+                        if (elm.attributes[key]) {
+                            dynamicAttributes[key] = elm.attributes[key]
+                        }
+                    }
+                }
+            }
+            // GENERATE DYNAMIC ATTRIBUTES
+
+            if (elm.tag == 'select') {
+                return <select {...dynamicAttributes}>
+                    {elm.options.map(opt => {
+                        return <option >{opt.label}</option>
+                    })}
+                </select>
+            }
+
+            if (elm.tag == 'input') {
+                return <input {...dynamicAttributes} />
+            }
+
+            if (elm.tag == 'textarea') {
+                return <textarea {...dynamicAttributes}></textarea>
+            }
+        }
+
+        return <div className="card">
+            <div className="card-body">
+                {blueprints.map(blp => {
+                    let explodingToColumn = Math.round(12 / totalRow)
+
+                    return <div className="row pseudo-row">
+                        <div className="pseudo-row-button" style={{ display: 'none' }}>
+                            <button className="btn btn-sm btn-primary">Tambah</button>
+                            <button className="btn btn-sm btn-info">Edit</button>
+                            <button className="btn btn-sm btn-danger">Hapus</button>
+                        </div>
+
+                        <br /><br />
+                        {
+                            blp.map(elm => {
+                                return <div className={`form-group ${blp.length > 1 ? '' : 'pseudo-row'} ${blp.length > 1 ? 'col-md-' + explodingToColumn : ''} mb-3`}>
+                                    <label className="mb-1" for={`${elm.attributes.id}`}>{elm.label}</label>
+                                    {generateX(elm)}
+                                </div>
+                            })}
+
+                    </div>
+                })}
+                {/* <div className="row pseudo-row">
+                    <div className="pseudo-row-button" style={{ display: 'none' }}>
+                        <button className="btn btn-sm btn-primary">Tambah</button> 
+                        <button className="btn btn-sm btn-info">Edit</button>
+                         <button className="btn btn-sm btn-danger">Hapus</button>
+                    </div> 
+                    
+                    <br/><br/>
+                    {elements.map(elm => {
+                        return <div className={ `form-group ${elements.length > 1 ? '' : 'pseudo-row'} ${elements.length > 1 ? 'col-md-' + explodingToColumn : ''} mb-3` }>
+                            <label className="mb-1" for={`${elm.attributes.id}`}>{elm.label}</label>
+                            {generateX(elm)}
+                        </div>
+                    })}
+                </div> */}
+            </div>
+        </div>
+    }
+
+    generatePureHtmlFromState() {
+        if (this.state.projectCanvas['platform'] === undefined) {
+            return;
+        }
+
+        let blueprints = this.state.projectCanvas.blueprintForm
+        let totalRow = blueprints.length
+
+        function generateX(elm) {
+            // GENERATE DYNAMIC ATTRIBUTES
+            let dynamicAttributes = {}
+            for (const key in elm.attributes) {
+                if (elm.attributes.hasOwnProperty(key)) {
+                    if ((typeof elm.attributes[key]) != "boolean") {
+                        dynamicAttributes[key] = elm.attributes[key]
+                    } else {
+                        if (elm.attributes[key]) {
+                            dynamicAttributes[key] = elm.attributes[key]
+                        }
+                    }
+                }
+            }
+            // GENERATE DYNAMIC ATTRIBUTES
+
+            if (elm.tag == 'select') {
+                return <select {...dynamicAttributes}>
+                    {elm.options.map(opt => {
+                        return <option >{opt.label}</option>
+                    })}
+                </select>
+            }
+
+            if (elm.tag == 'input') {
+                return <input {...dynamicAttributes} />
+            }
+
+            if (elm.tag == 'textarea') {
+                return <textarea {...dynamicAttributes}></textarea>
+            }
+        }
+
+        const view = <div className="modal fade" id="create-modal" tabindex="-1" aria-labelledby="create-modal-label" aria-hidden="true">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h1 className="modal-title fs-5" id="create-modal-label">Tambah data</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    </div>
+                    <div className="modal-body">
+                        {blueprints.map(blp => {
+                            let explodingToColumn = Math.round(12 / totalRow)
+
+                            return blp.map(elm => {
+                                return <div className={`form-group ${blp.length > 1 ? 'col-md-' + explodingToColumn : ''} mb-3`}>
+                                    <label className="mb-1" for={`create-${elm.attributes.id}`}>{elm.label}</label>
+                                    {generateX(elm)}
+                                    <div id={`create-${elm.attributes.id}-msg`}></div>
+                                </div>
+                            })
+                        })}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" className="btn btn-primary">Tambahkan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        const htmlString = ReactDOMServer.renderToString(view)
+        this.setState({blueprintFormHtmlString: htmlString})
+    }
+
+    generateLogicFromState() {
+        if (this.state.projectCanvas['platform'] === undefined) {
+            return;
+        }
+
+        // FINAL RESULT VARIABLE
+        let finalResults = []
+
+        // validator
+        let validator = `
+        
+         $validator = Validator::make($request->all(), [`
+
+        let allInput = this.state.projectCanvas.blueprintForm.flat()
+        allInput.map(input => {
+            validator += `\n '${input.attributes.name}' => '${input.validation.rules}'`
+        })
+
+        validator += `
+        ]);`
+        // validator
+
+
+        // returning validation
+        let validatorFails = `
+        
+            if ($validator->fails()) {
+            return response()->json([
+                'status'    => 'error',
+                'message'   => 'Ooopps',
+                'errors'    => $validator->errors()
+            ], 422);
+            
+        }`
+        // returning validation
+
+
+        // validator
+        let tryX = `\n
+        try {
+            $validator = $request->all();
+            
+            ${allInput.map(input => {
+            if (input.attributes.type === 'file' && input.storePath !== null) {
+                return `$validator['${input.attributes.name}'] = $request->file('${input.attributes.name}')->store('${input.storePath}');`
+            }
+        })}
+            
+            // Inserting data....
+            
+            // Create logging here....
+            
+            // Result....
+
+            return response()->json([
+                'status'    => 'success',
+                'message'   => 'Berhasil menambah data',
+                'data'      => null
+            ], 201);
+            
+        } catch (Exception $e) {
+            return response()->json([
+                'status'    => 'error',
+                'message'   => 'Gagal menambah data, ' . $e->getMessage(),
+                'data'      => null
+            ], 500);
+        }
+        `
+
+        let mainLogic = validator + tryX
+
+        // finalResults.push(mainLogic)
+        return <textarea className="form-control" rows={10} cols={30}>{mainLogic}</textarea>
+        // finalResults.map(separated => {
+        //     return <textarea className="form-control" rows={10} cols={30}>{separated}</textarea>
+        // })
+    }
+
+    // generateViewFromState() {
+    //     return <div>
+    //         <div className="mb-3">
+    //             <label htmlFor="">modal.blade.php</label>
+    //             <textarea className="form-control" rows={10} cols={30}>{this.state.blueprintFormHtmlString}</textarea>
+    //         </div>
+    //     </div>
+    // }
+
+    componentDidMount() {
+        // this.generateCanvasFromState()
+        // generateCanvas()
+    }
+
+    handleImportProjectTemplate(type, e) {
+        console.log(e)
+    }
+
+    handleStartCanvas(e) {
+        let sourceTemplate
+        if (this.state.projectCanvas.createProjectFrom === 'import_text') {
+            sourceTemplate = document.querySelector('#create-import_text').value
+            sourceTemplate = JSON.parse(sourceTemplate)
+            sourceTemplate['createProjectFrom'] = 'import_text'
+
+            this.setState({ projectCanvas: sourceTemplate }, () => {
+                this.generatePureHtmlFromState()
+            })
+            
+        } else if (this.state.projectCanvas.createProjectFrom === 'import_file') {
+            sourceTemplate = ''
+        }
+
+    }
+
+    render() {
+        return (
+
+            <div className="page-wrapper">
+                <div className="page-header d-print-none">
+                    <div className="container-xl">
+                        <div className="row g-2 align-items-center">
+                            <div className="col">
+
+                                <div className="page-pretitle">
+                                    Project
+                                </div>
+                                <h2 className="page-title">
+                                    Canvas
+                                </h2>
+                            </div>
+
+                            <div className="col-auto ms-auto d-print-none">
+                                <div className="btn-list">
+                                    <a href="#" className="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                                        data-bs-target="#modal-report">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24"
+                                            viewBox="0 0 24 24" strokeWidth={"2"} stroke="currentColor" fill="none"
+                                            strokeLinecap={"round"} strokeLinejoin={"round"}>
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M12 5l0 14" />
+                                            <path d="M5 12l14 0" />
+                                        </svg>
+                                        Create roject
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="page-body">
+                    <div className="container-xl">
+                        <div className="row row-deck row-cards">
+                            <div id="fragment-preview"></div>
+
+                            {this.generateCanvasFromState()}
+
+                            <div className="mt-5"></div>
+                            <br /><br /><br /><br /><br />
+                            <hr />
+
+                            <h3>Main Logic</h3>
+                            {this.generateLogicFromState()}
+
+                            <h3>View</h3>
+                            {/* {this.generateViewFromState()} */}
+                            <textarea name="asd" id="asd" className="form-control" value={this.state.blueprintFormHtmlString}  rows={10} cols={30}></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                {/* <footer className="footer footer-transparent d-print-none">
+          <div className="container-xl">
+            <div className="row text-center align-items-center flex-row-reverse">
+              <div className="col-12 col-lg-auto mt-3 mt-lg-0">
+                <ul className="list-inline list-inline-dots mb-0">
+                  <li className="list-inline-item">
+                    Copyright &copy; 2023
+                    <a href="." className="link-secondary">Tabler</a>.
+                    All rights reserved.
+                  </li>
+                  <li className="list-inline-item">
+                    <a href="./changelog.html" className="link-secondary" rel="noopener">
+                      v1.0.0-beta19
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer> */}
+
+                <div className="modal modal-blur fade" id="modal-report" tabIndex={"-1"} role="dialog" aria-hidden="true">
+                    <div className="modal-dialog modal-lg" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Create project</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <label className="form-label">Report type</label>
+                                <div className="form-selectgroup-boxes row mb-3">
+                                    <div className="col-lg-6">
+                                        <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'ui_wizard' } })}>
+                                            <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
+                                            <span className="form-selectgroup-label d-flex align-items-center p-3">
+                                                <span className="me-3">
+                                                    <span className="form-selectgroup-check"></span>
+                                                </span>
+                                                <span className="form-selectgroup-label-content">
+                                                    <span className="form-selectgroup-title strong mb-1">Simple</span>
+                                                    <span className="d-block text-muted">Create form and page using UI</span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div className="col-lg-6">
+                                        <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'import_file' } })}>
+                                            <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
+                                            <span className="form-selectgroup-label d-flex align-items-center p-3">
+                                                <span className="me-3">
+                                                    <span className="form-selectgroup-check"></span>
+                                                </span>
+                                                <span className="form-selectgroup-label-content">
+                                                    <span className="form-selectgroup-title strong mb-1">Advanced</span>
+                                                    <span className="d-block text-muted">Create form and page using JSON File template</span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div className="col-lg-6">
+                                        <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'import_text' } })}>
+                                            <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
+                                            <span className="form-selectgroup-label d-flex align-items-center p-3">
+                                                <span className="me-3">
+                                                    <span className="form-selectgroup-check"></span>
+                                                </span>
+                                                <span className="form-selectgroup-label-content">
+                                                    <span className="form-selectgroup-title strong mb-1">Advanced (text)</span>
+                                                    <span className="d-block text-muted">Create form and page using JSON text template</span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row">
+                                    {this.state.projectCanvas.createProjectFrom === 'import_text' && (
+                                        <div className="col-lg-12">
+                                            <div>
+                                                <label className="form-label">Paste your JSON template here</label>
+                                                <textarea id="create-import_text" className="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {this.state.projectCanvas.createProjectFrom === 'import_file' && (
+                                        <div className="col-lg-12">
+                                            <div>
+                                                <label className="form-label">Import your JSON file here</label>
+                                                <input type="file" className="form-control" id="" />
+                                            </div>
+                                        </div>
+                                    )}
+
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <a href="#" className="btn btn-link link-secondary" data-bs-dismiss="modal">
+                                    Cancel
+                                </a>
+                                <a href="#" className="btn btn-primary ms-auto" data-bs-dismiss="modal" id="btn-create-fragment" onClick={(e) => this.handleStartCanvas()}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24"
+                                        strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
+                                        strokeLinejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 5l0 14" />
+                                        <path d="M5 12l14 0" />
+                                    </svg>
+                                    Create new report
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+// function generateCanvas() {
+//     let psudoRow = document.querySelector('.pseudo-row')
+
+//     if (psudoRow != null) {
+//         psudoRow.addEventListener('click', function (e) {
+//             psudoRow.classList.add('active')
+//         })
+//     }
+
+//     let previewFragment = document.querySelector('#fragment-preview')
+//     let btnCreateFragment = document.querySelector('#btn-create-fragment')
+
+//     let formJSON = {
+//         elements: [
+//             {
+//                 label: 'Nama lengkap',
+//                 tag: 'input',
+//                 attributes: {
+//                     type: 'text',
+//                     class: 'form-control',
+//                     id: 'add-nama',
+//                     name: 'nama',
+//                     placeholder: 'Nama lengkap...',
+//                     disabled: false,
+//                     readonly: false,
+//                     autofocus: true
+//                 }
+//             },
+//             {
+//                 label: 'Alamat email',
+//                 tag: 'input',
+//                 attributes: {
+//                     type: 'email',
+//                     class: 'form-control',
+//                     id: 'add-email',
+//                     name: 'email',
+//                     placeholder: 'Email valid...',
+//                     disabled: false,
+//                     readonly: false,
+//                     autofocus: false
+//                 }
+//             },
+//             {
+//                 label: 'Password',
+//                 tag: 'input',
+//                 attributes: {
+//                     type: 'password',
+//                     class: 'form-control',
+//                     id: 'add-password',
+//                     name: 'password',
+//                     placeholder: 'Password...',
+//                     disabled: true,
+//                     readonly: true,
+//                     autofocus: false
+//                 }
+//             },
+//             // {
+//             //     label: 'Foto',
+//             //     tag: 'input',
+//             //     attributes: {
+//             //         type: 'file',
+//             //         class: 'form-control',
+//             //         id: 'add-file',
+//             //         name: 'file'
+//             //     }
+//             // },
+//             {
+//                 label: 'Jenis kelamin',
+//                 tag: 'select',
+//                 options: [
+//                     {
+//                         label: 'Pilih jenis kelamin',
+//                         value: '',
+//                         selected: true,
+//                         disabled: true
+//                     },
+//                     {
+//                         label: 'Laki-laki',
+//                         value: 'male',
+//                     },
+//                     {
+//                         label: 'Perempuan',
+//                         value: 'female'
+//                     },
+//                 ],
+//                 attributes: {
+//                     class: 'form-select',
+//                     id: 'add-jenis_kelamin',
+//                     name: 'jenis_kelamin',
+//                     disabled: false,
+//                     readonly: false,
+//                 }
+//             },
+//         ]
+//     }
+
+//     btnCreateFragment.addEventListener('click', () => {
+
+//         let cardTemplater = function (element) {
+//             return `<div className="card">
+//                                         <div className="card-body">
+//                                             ${element}
+//                                         </div>
+//                                     </div>`
+//         }
+
+//         let piece = ''
+//         let explodingToColumn = 12 / formJSON.elements.length
+
+//         if (formJSON.elements.length > 1) {
+//             piece += '<div className="row pseudo-row">'
+//             piece += '<div className="pseudo-row-button" style="display: none;"><button className="btn btn-sm btn-primary">Tambah</button> <button className="btn btn-sm btn-info">Edit</button> <button className="btn btn-sm btn-danger">Hapus</button></div> <br><br>'
+//         }
+
+//         formJSON.elements.forEach(elm => {
+//             piece += `<div className="form-group ${formJSON.elements.length > 1 ? '' : 'pseudo-row'} ${formJSON.elements.length > 1 ? 'col-md-' + explodingToColumn : ''} mb-3">`
+//             piece += `<label className="mb-1" for="${elm.attributes.id}">${elm.label}</label>`
+
+//             if (elm.tag != 'select') {
+//                 piece += `<${elm.tag}`
+//                 piece += ` ${elm.attributes.type} `
+
+//                 for (const key in elm.attributes) {
+//                     if (elm.attributes.hasOwnProperty(key)) {
+//                         if ((typeof elm.attributes[key]) != "boolean") {
+//                             piece += ` ${key}="${elm.attributes[key]}"`
+//                         } else {
+//                             if (elm.attributes[key]) {
+//                                 piece += ` ${key}="${elm.attributes[key]}"`
+//                             } else {
+//                                 piece += ``
+//                             }
+//                         }
+//                     }
+//                 }
+
+//                 piece += `>`
+//             } else {
+//                 piece += `<${elm.tag}`
+//                 for (const key in elm.attributes) {
+//                     if (elm.attributes.hasOwnProperty(key)) {
+//                         if ((typeof elm.attributes[key]) != "boolean") {
+//                             piece += ` ${key}="${elm.attributes[key]}"`
+//                         } else {
+//                             if (elm.attributes[key]) {
+//                                 piece += ` ${key}="${elm.attributes[key]}"`
+//                             } else {
+//                                 piece += ``
+//                             }
+//                         }
+//                     }
+//                 }
+//                 piece += `>`
+
+//                 // option generate
+//                 let options = ''
+//                 elm.options.forEach(opt => {
+//                     let option = `<option value="${opt.value}" ${opt.hasOwnProperty('selected') ? 'selected' : ''} ${opt.hasOwnProperty('disabled') ? 'disabled' : ''}>${opt.label}</option>`
+
+//                     // for (const key in opt) {
+//                     //     if (opt.hasOwnProperty(key)) {
+//                     //         option += ` value="${opt.value}"`
+//                     //         option += ` ${key}="${opt[key]}"`
+//                     //     }
+//                     // }
+
+//                     options += option
+//                 })
+
+//                 piece += options
+//                 piece += `</${elm.tag}>`
+//             }
+
+//             piece += '</div>'
+
+//             // piece += `<button className="btn btn-outline-primary">+ Tambah element</button>`
+//         })
+
+//         if (formJSON.elements.length > 1) {
+//             piece += '</div>'
+
+//             // piece += `<button className="btn btn-outline-primary">+ Tambah element</button>`
+//         }
+//         previewFragment.innerHTML += cardTemplater(piece)
+//         // previewFragment.insertAdjacentHTML('beforeend', `<button className="btn btn-outline-primary">+ Tambah element</button>`)
+//         document.querySelector('.card-body').insertAdjacentHTML('afterbegin', `<div className="row p-3"><button className="btn btn-outline-dark">+ Tambah element</button></row>`)
+//         document.querySelector('.card-body').insertAdjacentHTML('beforeend', `<div className="row p-3"><button className="btn btn-outline-dark">+ Tambah element</button></row>`)
+//         // document.querySelector('.card-body').innerHTML += `<button className="btn btn-sm btn-primary ms-3">+ Tambah element</button>`
+
+//         // previewFragment.innerHTML += cardTemplater(`
+//         // <div className="mb-3">
+//         //                   <label className="form-label">Text</label>
+//         //                   <input type="text" className="form-control" name="example-text-input" placeholder="Input placeholder">
+//         //                 </div>
+//         // `)
+
+//         // previewFragment.innerHTML += `<h1>${new Date()}</h1>`
+
+//         psudoRow = document.querySelector('.pseudo-row')
+//         psudoRow.addEventListener('click', function (e) {
+//             psudoRow.classList.add('active')
+//         })
+
+//         document.getElementsByClassName('pseudo-row')[0].addEventListener('mouseenter', function () {
+//             document.getElementsByClassName('pseudo-row-button')[0].style.display = "block"
+//         })
+
+//         document.getElementsByClassName('pseudo-row')[0].addEventListener('mouseleave', function () {
+//             document.getElementsByClassName('pseudo-row-button')[0].style.display = "none"
+//         })
+//     })
+
+//     // btn-add-input
+
+//     // setTimeout(() => {
+//     //     [].forEach.call(document.getElementsByClassName('pseudo-row-button'), function (el) {
+//     //         el.style.display = 'none';
+//     //     });
+//     // }, 5000);
+
+
+// }
+
+export default ProjectCanvas;
+
