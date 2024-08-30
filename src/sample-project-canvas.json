@@ -3,6 +3,7 @@
   "createProjectFrom": "import_text",
   "exportProjectTo": "file",
   "platform": "php-laravel",
+  "designPattern": "mvc",
   "crudType": "modal",
   "importData": {
     "fileExtension": "xlsx"
