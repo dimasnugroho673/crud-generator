@@ -6,6 +6,7 @@ import './utils/router';
 import routes from './utils/router';
 
 const ProjectCanvas = React.lazy(() => import('../src/views/pages/project-canvas'));
+const Dashboard = React.lazy(() => import('../src/views/pages/dashboard'));
 
 const loading = (
   <div className="pt-3 text-center">
@@ -231,7 +232,7 @@ function App() {
                       </svg>
                     </span>
                     <span class="nav-link-title">
-                      Home
+                      Dashboard
                     </span>
                   </a>
                 </li>
@@ -274,6 +275,7 @@ function App() {
           <React.Suspense fallback={loading}>
             <Switch>
               <Route path="/project-canvas" name="Project canvas" render={props => <ProjectCanvas {...props} />} />
+              <Route path="/dashboard" name="Dashboard" render={props => <Dashboard {...props} />} />
             </Switch>
           </React.Suspense>
         </BrowserRouter>
