@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
 import ReactDOM from "react-dom";
 import ReactDOMServer from "react-dom/server";
-
+import SampleProjectCanvasTemplateJson from '../../sample-project-canvas.json';
+import * as bootstrap from '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.js'
 
 class ProjectCanvas extends Component {
     constructor(props) {
@@ -10,12 +11,14 @@ class ProjectCanvas extends Component {
         this.state = {
             errorMessage: null,
             isLoadingGeneratedResults: false,
+            loadingGeneratedResults: null,
             results: [],
             projectCanvas: {
                 createProjectFrom: null
             },
             blueprintFormHtmlString: ""
             // projectCanvas: {
+            //     templateVersion: '0.1',
             //     titleProject: 'Ruangan', // title is page or class page
             //     createProjectFrom: 'import_text', // import_file, import_text, ui_wizard
             //     exportProjectTo: 'file', // file, text
@@ -266,6 +269,23 @@ class ProjectCanvas extends Component {
                     })}
                 </div> */}
             </div>
+            <div className="card-footer">
+                <div className="card-title">Preview Tree</div>
+                <div>
+                    <ul id="myUL">
+                        {blueprints.map((blp, index) => {
+                            return <li><span class="caret">{`Row ${index + 1}`}</span>
+                                <ul class="nested">
+                                {blp.map(elm => {
+                                    return <li>{elm.attributes.name}</li>
+                                })}
+                                </ul>
+                            </li>
+                        })}
+
+                    </ul>
+                </div>
+            </div>
         </div>
     }
 
@@ -321,13 +341,13 @@ class ProjectCanvas extends Component {
                         {blueprints.map(blp => {
                             let explodingToColumn = Math.round(12 / totalRow)
 
-                            return blp.map(elm => {
-                                return <div className={`form-group ${blp.length > 1 ? 'col-md-' + explodingToColumn : ''} mb-3`}>
+                            return <div className="row">{blp.map(elm => {
+                                return <div className={`form-group${blp.length > 1 ? ' col-md-' + explodingToColumn + ' ' : ' '}mb-3`}>
                                     <label className="mb-1" for={elm.attributes.id}>{elm.label}</label>
                                     {generateX(elm)}
                                     <div id={`${elm.attributes.id}-msg`}></div>
                                 </div>
-                            })
+                            })}</div>
                         })}
                     </div>
                     <div className="modal-footer">
@@ -513,6 +533,8 @@ class ProjectCanvas extends Component {
     componentDidMount() {
         // this.renderCanvasFromState()
         // generateCanvas()
+
+        this.setState({ loadingGeneratedResults: this.fragmentMakeMeAwesome() })
     }
 
     handleImportProjectTemplate(type, e) {
@@ -520,29 +542,66 @@ class ProjectCanvas extends Component {
     }
 
     handleStartCanvas(e) {
+
         this.setState({ isLoadingGeneratedResults: true })
 
-        setTimeout(() => {
-            let sourceTemplate
-            if (this.state.projectCanvas.createProjectFrom === 'import_text') {
-                sourceTemplate = document.querySelector('#create-import_text').value
-                sourceTemplate = JSON.parse(sourceTemplate)
-                sourceTemplate['createProjectFrom'] = 'import_text'
+        let sourceTemplate
+        if (this.state.projectCanvas.createProjectFrom === 'import_text') {
+            this.setState({ loadingGeneratedResults: this.fragmentGeneratingResult('Validating JSON...') })
 
+            setTimeout(() => {
+                try {
+                    sourceTemplate = document.querySelector('#create-import_text').value
 
-                this.setState({ projectCanvas: sourceTemplate }, () => {
-                    this.generatePureHtmlFromState()
-                    this.generateLogicFromState()
-                })
+                    sourceTemplate = JSON.parse(sourceTemplate)
+                    sourceTemplate['createProjectFrom'] = 'import_text'
 
-                this.setState({ isLoadingGeneratedResults: false })
+                    setTimeout(() => {
+                        this.setState({ projectCanvas: sourceTemplate }, () => {
+                            this.generatePureHtmlFromState()
+                            this.generateLogicFromState()
+                        })
+                    }, 2000)
+                } catch (error) {
+                    alert('Validating JSON failed: ' + error.message)
+                } finally {
+                    document.querySelector('#modal-create-project .btn-close').click()
 
-            } else if (this.state.projectCanvas.createProjectFrom === 'import_file') {
-                sourceTemplate = ''
+                    this.setState({ isLoadingGeneratedResults: false })
+                    this.setState({ loadingGeneratedResults: this.fragmentMakeMeAwesome() })
+                }
+            }, 500)
+
+        } else if (this.state.projectCanvas.createProjectFrom === 'import_file') {
+            sourceTemplate = document.getElementById("create-import_file").files[0]
+
+            this.setState({ loadingGeneratedResults: this.fragmentGeneratingResult('Validating JSON...') })
+
+            if (sourceTemplate) {
+                setTimeout(() => {
+                    let reader = new FileReader()
+
+                    reader.readAsText(sourceTemplate, "UTF-8")
+                    reader.onload = (e) => {
+                        sourceTemplate = JSON.parse(e.target.result)
+                        sourceTemplate['createProjectFrom'] = 'import_file'
+
+                        this.setState({ projectCanvas: sourceTemplate }, () => {
+                            this.generatePureHtmlFromState()
+                            this.generateLogicFromState()
+                        })
+
+                        this.setState({ isLoadingGeneratedResults: false })
+
+                        document.querySelector('#modal-create-project .btn-close').click()
+                    }
+                    reader.onerror = (e) => {
+                        console.error('error read file json: ', e.target.result)
+                        // document.getElementById("fileContents").innerHTML = "error reading file";
+                    }
+                }, 2000)
             }
-        }, 2000);
-
-
+        }
     }
 
     // final results
@@ -570,6 +629,14 @@ class ProjectCanvas extends Component {
 
     }
 
+    fragmentMakeMeAwesome() {
+        return <div><i class="bi bi-stars me-2"></i> Make me awesome</div>
+    }
+
+    fragmentGeneratingResult(text) {
+        return <div>{text}</div>
+    }
+
     render() {
         return (
             <div className="page-wrapper">
@@ -589,7 +656,7 @@ class ProjectCanvas extends Component {
                             <div className="col-auto ms-auto d-print-none">
                                 <div className="btn-list">
                                     <a href="#" className="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
-                                        data-bs-target="#modal-report">
+                                        data-bs-target="#modal-create-project">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24"
                                             viewBox="0 0 24 24" strokeWidth={"2"} stroke="currentColor" fill="none"
                                             strokeLinecap={"round"} strokeLinejoin={"round"}>
@@ -624,29 +691,29 @@ class ProjectCanvas extends Component {
                             </div>
                             }
 
-                            {this.state.projectCanvas['platform'] !== undefined && 
+                            {this.state.projectCanvas['platform'] !== undefined &&
                                 <div>
-                                {this.renderCanvasFromState()}
+                                    {this.renderCanvasFromState()}
 
-                                <div className="mt-5"></div>
-                                <br /><br /><br /><br /><br />
-                                <hr />
+                                    <div className="mt-5"></div>
+                                    <br /><br /><br /><br /><br />
+                                    <hr />
 
-                                {/* <h3>Main Logic</h3> */}
-                                {/* {this.generateLogicFromState()} */}
+                                    {/* <h3>Main Logic</h3> */}
+                                    {/* {this.generateLogicFromState()} */}
 
-                                {/* <h3>View</h3> */}
-                                {/* {this.generateViewFromState()} */}
-                                {/* <textarea name="asd" id="asd" className="form-control" value={this.state.blueprintFormHtmlString} rows={10} cols={30}></textarea> */}
+                                    {/* <h3>View</h3> */}
+                                    {/* {this.generateViewFromState()} */}
+                                    {/* <textarea name="asd" id="asd" className="form-control" value={this.state.blueprintFormHtmlString} rows={10} cols={30}></textarea> */}
 
-                                <h3>Final result</h3>
+                                    <h3>Final result {`(${this.state.results.length} file)`}</h3>
 
-                                <div class="alert alert-warning" role="alert">
-                                    Generated code isn't prettier, please pretty your code manually
+                                    <div class="alert alert-warning" role="alert">
+                                        Generated code isn't prettier, please pretty your code manually
+                                    </div>
+
+                                    {this.renderFinalResults()}
                                 </div>
-
-                                {this.renderFinalResults()}
-                            </div>
                             }
 
                         </div>
@@ -674,7 +741,7 @@ class ProjectCanvas extends Component {
           </div>
         </footer> */}
 
-                <div className="modal modal-blur fade" id="modal-report" tabIndex={"-1"} role="dialog" aria-hidden="true">
+                <div className="modal modal-blur fade" id="modal-create-project" tabIndex={"-1"} role="dialog" aria-hidden="true">
                     <div className="modal-dialog modal-lg" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -682,7 +749,7 @@ class ProjectCanvas extends Component {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <label className="form-label">Report type</label>
+                                <label className="form-label">Start with...</label>
                                 <div className="form-selectgroup-boxes row mb-3">
                                     <div className="col-lg-6">
                                         <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'ui_wizard' } })}>
@@ -706,7 +773,7 @@ class ProjectCanvas extends Component {
                                                     <span className="form-selectgroup-check"></span>
                                                 </span>
                                                 <span className="form-selectgroup-label-content">
-                                                    <span className="form-selectgroup-title strong mb-1">Advanced</span>
+                                                    <span className="form-selectgroup-title strong mb-1">Advanced (file)</span>
                                                     <span className="d-block text-muted">Create form and page using JSON File template</span>
                                                 </span>
                                             </span>
@@ -731,7 +798,10 @@ class ProjectCanvas extends Component {
                             <div className="modal-body">
                                 <div className="row">
                                     {this.state.projectCanvas.createProjectFrom === 'import_text' && (
+
                                         <div className="col-lg-12">
+                                            <a className="btn btn-outline-info mb-3" href={SampleProjectCanvasTemplateJson} download="sample-project-canvas-template-json.json"><i class="bi bi-filetype-json me-2"></i> Download sample data JSON</a>
+
                                             <div>
                                                 <label className="form-label">Paste your JSON template here</label>
                                                 <textarea id="create-import_text" className="form-control" rows="3"></textarea>
@@ -743,7 +813,7 @@ class ProjectCanvas extends Component {
                                         <div className="col-lg-12">
                                             <div>
                                                 <label className="form-label">Import your JSON file here</label>
-                                                <input type="file" className="form-control" id="" />
+                                                <input type="file" className="form-control" id="create-import_file" accept=".json" />
                                             </div>
                                         </div>
                                     )}
@@ -754,16 +824,7 @@ class ProjectCanvas extends Component {
                                 <a href="#" className="btn btn-link link-secondary" data-bs-dismiss="modal">
                                     Cancel
                                 </a>
-                                <a href="#" className="btn btn-primary ms-auto" data-bs-dismiss="modal" id="btn-create-fragment" onClick={(e) => this.handleStartCanvas()}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24"
-                                        strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
-                                        strokeLinejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M12 5l0 14" />
-                                        <path d="M5 12l14 0" />
-                                    </svg>
-                                    Create new report
-                                </a>
+                                <a href="#" className="btn btn-primary ms-auto" id="btn-create-fragment" onClick={(e) => this.handleStartCanvas()}>{this.state.loadingGeneratedResults}</a>
                             </div>
                         </div>
                     </div>

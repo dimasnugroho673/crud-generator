@@ -1,4 +1,5 @@
 {
+  "templateVersion": "0.1"  ,
   "titleProject": "Ruangan",
   "createProjectFrom": "import_text",
   "exportProjectTo": "file",
@@ -86,6 +87,23 @@
           "rules": "nullable"
         }
       },
+      {
+        "label": "Foto",
+        "tag": "input",
+        "attributes": {
+          "type": "file",
+          "class": "form-control",
+          "id": "create-foto_ruangan",
+          "name": "foto_ruangan"
+        },
+        "validation": {
+          "type": "serverside",
+          "rules": "required|mimes:jpg,jpeg,png|max:2048"
+        },
+        "storePath": "/foto_ruangan"
+      }
+    ],
+    [
       {
         "label": "Foto",
         "tag": "input",
