@@ -269,6 +269,23 @@ class ProjectCanvas extends Component {
                     })}
                 </div> */}
             </div>
+            <div className="card-footer">
+                <div className="card-title">Preview Tree</div>
+                <div>
+                    <ul id="myUL">
+                        {blueprints.map((blp, index) => {
+                            return <li><span class="caret">{`Row ${index + 1}`}</span>
+                                <ul class="nested">
+                                {blp.map(elm => {
+                                    return <li>{elm.attributes.name}</li>
+                                })}
+                                </ul>
+                            </li>
+                        })}
+
+                    </ul>
+                </div>
+            </div>
         </div>
     }
 
@@ -545,7 +562,7 @@ class ProjectCanvas extends Component {
                             this.generateLogicFromState()
                         })
                     }, 2000)
-                } catch (error) {   
+                } catch (error) {
                     alert('Validating JSON failed: ' + error.message)
                 } finally {
                     document.querySelector('#modal-create-project .btn-close').click()
@@ -554,10 +571,10 @@ class ProjectCanvas extends Component {
                     this.setState({ loadingGeneratedResults: this.fragmentMakeMeAwesome() })
                 }
             }, 500)
-            
+
         } else if (this.state.projectCanvas.createProjectFrom === 'import_file') {
             sourceTemplate = document.getElementById("create-import_file").files[0]
-            
+
             this.setState({ loadingGeneratedResults: this.fragmentGeneratingResult('Validating JSON...') })
 
             if (sourceTemplate) {
@@ -732,7 +749,7 @@ class ProjectCanvas extends Component {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <label className="form-label">STart with...</label>
+                                <label className="form-label">Start with...</label>
                                 <div className="form-selectgroup-boxes row mb-3">
                                     <div className="col-lg-6">
                                         <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'ui_wizard' } })}>
