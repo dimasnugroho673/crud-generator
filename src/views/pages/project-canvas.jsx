@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 import ReactDOM from "react-dom";
 import ReactDOMServer from "react-dom/server";
 import SampleProjectCanvasTemplateJson from '../../sample-project-canvas.json';
+import { collection, addDoc, updateDoc, getDocs, getFirestore, query, where, db, doc, documentId } from "firebase/firestore";
+import firebaseConf from '../../utils/firebase-config';
 import * as bootstrap from '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.js'
 
 class ProjectCanvas extends Component {
@@ -22,7 +24,7 @@ class ProjectCanvas extends Component {
             //     titleProject: 'Ruangan', // title is page or class page
             //     createProjectFrom: 'import_text', // import_file, import_text, ui_wizard
             //     exportProjectTo: 'file', // file, text
-            //     platform: 'php-laravel', // php-laravel, php-ci3, php-ci4
+            //     platform: 'php-laravel8_9', // php-laravel8_9, php-ci3, php-ci4
             //     designPattern: "mvc",
             //     crudType: 'modal', // modal, page
             //     importData: { // fill false to avoid this feature
@@ -276,9 +278,9 @@ class ProjectCanvas extends Component {
                         {blueprints.map((blp, index) => {
                             return <li><span class="caret">{`Row ${index + 1}`}</span>
                                 <ul class="nested">
-                                {blp.map(elm => {
-                                    return <li>{elm.attributes.name}</li>
-                                })}
+                                    {blp.map(elm => {
+                                        return <li>{elm.attributes.name}</li>
+                                    })}
                                 </ul>
                             </li>
                         })}
@@ -541,6 +543,54 @@ class ProjectCanvas extends Component {
         console.log(e)
     }
 
+    async sendDatAnalytic() {
+        try {
+            const database = getFirestore(firebaseConf)
+            const addHistory = await addDoc(collection(database, "histories"), {
+                templateVersion: this.state.projectCanvas.templateVersion,
+                titleProject: this.state.projectCanvas.titleProject,
+                platform: this.state.projectCanvas.platform,
+                crudType: this.state.projectCanvas.crudType,
+                createProjectFrom: this.state.projectCanvas.createProjectFrom,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            })
+            // console.log("Document written with ID: ", addHistory.id)
+
+            await getDocs(query(collection(database, "histories_per_platform"), where(documentId(), "==", this.state.projectCanvas.platform)))
+                .then((snapshot) => {
+                    if (snapshot.docs.length >= 1) {
+                        let data = snapshot.docs[0].data()
+                        data.historiesDocId.push(addHistory.id)
+
+                        updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), {
+                            count: data.count + 1,
+                            historiesDocId: data.historiesDocId
+                        })
+                    }
+                })
+
+            // const addHistoryPerPlatform = await updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), { 
+            //     count: Subject 
+            // })
+
+            // const addHistoryPerPlatform = await addDoc(collection(database, "histories_per_platform"), {
+            //     templateVersion: this.state.projectCanvas.templateVersion,
+            //     titleProject: this.state.projectCanvas.titleProject,
+            //     platform: this.state.projectCanvas.platform,
+            //     crudType: this.state.projectCanvas.crudType,
+            //     createProjectFrom: this.state.projectCanvas.createProjectFrom,
+            //     createdAt: new Date(),
+            //     updatedAt: new Date()
+            // })
+            // console.log("Document written with ID: ", addHistoryPerPlatform.id)
+
+
+        } catch (e) {
+            console.error("Error adding document: ", e)
+        }
+    }
+
     handleStartCanvas(e) {
 
         this.setState({ isLoadingGeneratedResults: true })
@@ -560,6 +610,7 @@ class ProjectCanvas extends Component {
                         this.setState({ projectCanvas: sourceTemplate }, () => {
                             this.generatePureHtmlFromState()
                             this.generateLogicFromState()
+                            this.sendDatAnalytic()
                         })
                     }, 2000)
                 } catch (error) {
@@ -589,6 +640,7 @@ class ProjectCanvas extends Component {
                         this.setState({ projectCanvas: sourceTemplate }, () => {
                             this.generatePureHtmlFromState()
                             this.generateLogicFromState()
+                            this.sendDatAnalytic()
                         })
 
                         this.setState({ isLoadingGeneratedResults: false })
@@ -617,7 +669,7 @@ class ProjectCanvas extends Component {
 
     // small func
     generateFilename(platform, typePattern) { // typePattern like controlller, view, model, service, etc....
-        if (platform === 'php-laravel') {
+        if (platform === 'php-laravel8_9') {
             if (typePattern === 'controller') {
                 return this.state.projectCanvas.titleProject + 'Controller.php'
             }

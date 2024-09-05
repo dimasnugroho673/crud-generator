@@ -3,7 +3,7 @@
   "titleProject": "Ruangan",
   "createProjectFrom": "import_text",
   "exportProjectTo": "file",
-  "platform": "php-laravel",
+  "platform": "php-laravel8_9",
   "designPattern": "mvc",
   "crudType": "modal",
   "importData": {
