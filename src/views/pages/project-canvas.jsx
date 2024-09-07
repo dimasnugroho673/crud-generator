@@ -19,170 +19,6 @@ class ProjectCanvas extends Component {
                 createProjectFrom: null
             },
             blueprintFormHtmlString: ""
-            // projectCanvas: {
-            //     templateVersion: '0.1',
-            //     titleProject: 'Ruangan', // title is page or class page
-            //     createProjectFrom: 'import_text', // import_file, import_text, ui_wizard
-            //     exportProjectTo: 'file', // file, text
-            //     platform: 'php-laravel8_9', // php-laravel8_9, php-ci3, php-ci4
-            //     designPattern: "mvc",
-            //     crudType: 'modal', // modal, page
-            //     importData: { // fill false to avoid this feature
-            //         fileExtension: 'xlsx'
-            //     },
-            //     exportData: { // fill false to avoid this feature
-            //         fileExtension: 'csv'
-            //     },
-            //     showData: { // fill false to avoid this feature
-            //         type: 'list',
-            //     },
-            //     blueprintForm: [
-            //         // by row
-            //         [
-            //             {
-            //                 label: 'Nama ruangan',
-            //                 tag: 'input',
-            //                 attributes: {
-            //                     type: 'text',
-            //                     class: 'form-control',
-            //                     id: 'create-nama_ruangan',
-            //                     name: 'nama_ruangan',
-            //                     placeholder: 'Cth. Ruang rapat 1',
-            //                     disabled: false,
-            //                     readonly: false,
-            //                     autofocus: true
-            //                 },
-            //                 validation: {
-            //                     type: 'serverside', // serverside, clientside
-            //                     rules: 'required|max:255|unique:unique:m_ruangan'
-            //                 }
-            //             },
-            //             {
-            //                 label: 'Lantai ruangan',
-            //                 tag: 'input',
-            //                 attributes: {
-            //                     type: 'text',
-            //                     class: 'form-control',
-            //                     id: 'create-lantai_ruangan',
-            //                     name: 'lantai_ruangan',
-            //                     placeholder: 'Cth. Lt 1',
-            //                     disabled: false,
-            //                     readonly: false
-            //                 },
-            //                 validation: {
-            //                     type: 'serverside', // serverside, clientside
-            //                     rules: 'required'
-            //                 }
-            //             },
-            //             {
-            //                 label: 'Kapasitas ruangan',
-            //                 tag: 'input',
-            //                 attributes: {
-            //                     type: 'text',
-            //                     class: 'form-control',
-            //                     id: 'create-kapasitas',
-            //                     name: 'kapasitas',
-            //                     placeholder: 'Cth. 50',
-            //                     disabled: false,
-            //                     readonly: false
-            //                 },
-            //                 validation: {
-            //                     type: 'serverside', // serverside, clientside
-            //                     rules: 'required|numeric'
-            //                 }
-            //             },
-            //             {
-            //                 label: 'Keterangan',
-            //                 tag: 'textarea',
-            //                 attributes: {
-            //                     class: 'form-control',
-            //                     id: 'create-keterangan',
-            //                     name: 'keterangan',
-            //                     placeholder: 'Keterangan tambahan',
-            //                     row: 10,
-            //                     column: 20,
-            //                     disabled: false,
-            //                     readonly: false
-            //                 },
-            //                 validation: {
-            //                     type: 'serverside', // serverside, clientside
-            //                     rules: 'nullable'
-            //                 }
-            //             },
-            //             {
-            //                 label: 'Foto',
-            //                 tag: 'input',
-            //                 attributes: {
-            //                     type: 'file',
-            //                     class: 'form-control',
-            //                     id: 'create-foto_ruangan',
-            //                     name: 'foto_ruangan'
-            //                 },
-            //                 validation: {
-            //                     type: 'serverside', // serverside, clientside
-            //                     rules: 'required|mimes:jpg,jpeg,png|max:2048'
-            //                 },
-            //                 storePath: '/foto_ruangan' // can null
-            //             },
-            //             // {
-            //             //     label: 'Alamat email',
-            //             //     tag: 'input',
-            //             //     attributes: {
-            //             //         type: 'email',
-            //             //         class: 'form-control',
-            //             //         id: 'add-email',
-            //             //         name: 'email',
-            //             //         placeholder: 'Email valid...',
-            //             //         disabled: false,
-            //             //         readonly: false,
-            //             //         autofocus: false
-            //             //     }
-            //             // },
-            //             // {
-            //             //     label: 'Password',
-            //             //     tag: 'input',
-            //             //     attributes: {
-            //             //         type: 'password',
-            //             //         class: 'form-control',
-            //             //         id: 'add-password',
-            //             //         name: 'password',
-            //             //         placeholder: 'Password...',
-            //             //         disabled: false,
-            //             //         readonly: true,
-            //             //         autofocus: false
-            //             //     }
-            //             // },
-            //             // {
-            //             //     label: 'Jenis kelamin',
-            //             //     tag: 'select',
-            //             //     options: [
-            //             //         {
-            //             //             label: 'Pilih jenis kelamin',
-            //             //             value: '',
-            //             //             selected: true,
-            //             //             disabled: true
-            //             //         },
-            //             //         {
-            //             //             label: 'Laki-laki',
-            //             //             value: 'male',
-            //             //         },
-            //             //         {
-            //             //             label: 'Perempuan',
-            //             //             value: 'female'
-            //             //         },
-            //             //     ],
-            //             //     attributes: {
-            //             //         class: 'form-select',
-            //             //         id: 'add-jenis_kelamin',
-            //             //         name: 'jenis_kelamin',
-            //             //         disabled: false,
-            //             //         readonly: false,
-            //             //     }
-            //             // },
-            //         ]
-
-            //     ]
-            // }
         }
         this.handleImportProjectTemplate = this.handleImportProjectTemplate.bind(this)
         this.handleStartCanvas = this.handleStartCanvas.bind(this)
@@ -297,6 +133,7 @@ class ProjectCanvas extends Component {
         }
 
         let blueprints = this.state.projectCanvas.blueprintForm
+        let inputs = blueprints.flat()
         let totalRow = blueprints.length
 
         function generateX(elm) {
@@ -332,48 +169,252 @@ class ProjectCanvas extends Component {
             }
         }
 
-        const view = <div className="modal fade" id="create-modal" tabindex="-1" aria-labelledby="create-modal-label" aria-hidden="true">
+        const generateModal = (type) => {
+            let headerTitle = type == 'create' ? 'Tambah' : 'Ubah'
+            let footerTitle = type == 'create' ? 'Tambahkan' : 'Ubah'
+            let buttonStyle = type == 'create' ? 'btn btn-primary' : 'btn btn-warning'
+
+            return <div className="modal fade" id={`modal-${type}`} tabindex="-1" aria-labelledby={`${type}-modal-label`} aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
-                    <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="create-modal-label">Tambah data</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                    </div>
-                    <div className="modal-body">
-                        {blueprints.map(blp => {
-                            let explodingToColumn = Math.round(12 / totalRow)
+                    <form id={`form-${type}`}>
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id={`${type}-modal-label`}>{headerTitle} data</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                        </div>
+                        <div className="modal-body">
+                            {blueprints.map(blp => {
+                                let explodingToColumn = Math.round(12 / totalRow)
 
-                            return <div className="row">{blp.map(elm => {
-                                return <div className={`form-group${blp.length > 1 ? ' col-md-' + explodingToColumn + ' ' : ' '}mb-3`}>
-                                    <label className="mb-1" for={elm.attributes.id}>{elm.label}</label>
-                                    {generateX(elm)}
-                                    <div id={`${elm.attributes.id}-msg`}></div>
-                                </div>
-                            })}</div>
-                        })}
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="button" className="btn btn-primary">Tambahkan</button>
-                    </div>
+                                return <div className="row">{blp.map(elm => {
+                                    return <div className={`form-group${blp.length > 1 ? ' col-md-' + explodingToColumn + ' ' : ' '}mb-3`}>
+                                        <label className="mb-1" for={elm.attributes.id}>{elm.label}</label>
+                                        {generateX(elm)}
+                                        <div id={`${elm.attributes.id}-msg`}></div>
+                                    </div>
+                                })}</div>
+                            })}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" className={buttonStyle}>{footerTitle}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+        }
 
-        const htmlString = ReactDOMServer.renderToString(view)
-        this.setState({ blueprintFormHtmlString: htmlString })
+        const generateIndexPage = () => {
+            let finalResult = ''
+
+            const generateTable = () => { 
+
+                let generateColumn = () => {
+                    let result = ''
+                    inputs.map(input => {
+                        let orderable = ''
+                        if (input.attributes.type === 'number' || input.attributes.type === 'date') {
+                            orderable = 'data-orderable="true"'
+                        } else {
+                            orderable = ''
+                        }
+                        result += `<th ${orderable}>{{ __('${input.attributes.name}') }}</th>`
+                    })
+
+                    return result
+                }
+
+                return `
+                    <div class="table-responsive">
+                        <table id="table" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="10%">{{ __('No') }}</th>
+                                    ${generateColumn()}
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                `
+            }
+
+            finalResult = generateTable()
+
+            return finalResult
+        }
+
+        const generateScript = () => {
+            let finalResult = ''
+
+            finalResult = `<script>
+                let formMode = 'create'
+            `
+
+            const datatable = () => {
+                let finalResult = ''
+
+                let generateColumn = () => {
+                    let result = ''
+                    inputs.map(input => {
+                        result += `{
+                                data: '${input.attributes.name}',
+                                name: '${input.attributes.name}'
+                            },`
+                    })
+
+                    return result
+                }
+
+                finalResult = `
+                    let table = $('#table').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        responsive: true,
+                        ajax: "{{ url()->current() }}",
+                        lengthMenu: [10, 25, 50],
+                        columns: [{
+                                data: 'DT_RowIndex',
+                                name: 'DT_RowIndex'
+                            },
+                            ${generateColumn()}
+                            {
+                                data: 'actions',
+                                name: 'actions',
+                                orderable: false,
+                                searchable: false
+                            },
+                        ]
+                    })
+                `
+
+                return finalResult
+            }
+
+            const updateData = () => {
+                return `
+                    $('#table tbody').on('click', '.btn-update', function() {
+                        let id = $(this).data('id')
+                        let detail = $(this).data('detail')
+
+                        formMode = 'update'
+
+                        for (const key in detail) {
+                            if (detail.hasOwnProperty(key)) {
+                                $(\`#update-\${key}\`).val(detail[key])
+                            }
+                        }
+                        $(\`#modal-\${formMode}\`).modal('show')
+                    })
+                `
+            }
+
+            const createData = () => {
+                return `
+                    $('#form-create').submit(function(e) {
+                        e.preventDefault()
+
+                        let formData = new FormData(this)
+                        formData.append('_method', 'post')
+                        formData.append('_token', getCsrfToken())
+
+                        callApi(formData)
+                    })
+                `
+            }
+
+            const deleteData = () => {
+                return `
+                    $('#form-update').submit(function(e) {
+                        e.preventDefault()
+
+                        // fill id here...
+                        let id = $('#update-...').val()
+
+                        let formData = new FormData(this)
+                        formData.append('_method', 'put')
+                        formData.append('_token', getCsrfToken())
+
+                        callApi(formData, \`{{ url()->current() }}/\${id}\`)
+                    })
+
+                    $('#table tbody').on('click', '.btn-delete', function() {
+                        let id = $(this).data('id')
+
+                        showSwalConfirm(\`Hapus\`, 'Hapus data?', 'warning', function(result) {
+                            if (result) {
+                                let formData = new FormData()
+                                formData.append('_method', 'delete')
+                                formData.append('_token', getCsrfToken())
+
+                                callApi(formData, "{{ url()->current() }}" + "/" + id)
+                            }
+                        })
+                    })
+                `
+            }
+
+            const callApi = () => {
+                return `
+                    function callApi(formData, url = null) {
+                        $.ajax({
+                            url: url == null ? "{{ url()->current() }}" : url,
+                            method: "POST",
+                            data: formData,
+                            dataType: "JSON",
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            beforeSend: function() {
+                                clearValidationMessage(formMode, 'msg')
+                            },
+                            success: function(response) {
+                                $(\`#form-\${formMode}\`).trigger('reset')
+                                $(\`#modal-\${formMode}\`).modal('hide')
+                                formMode = 'create'
+                                showSwal(response.message, response.status)
+                                table.ajax.reload()
+                            },
+                            error: function(response) {
+                                if (response.status == 422) {
+                                    let error = response.responseJSON.errors
+                                    clearValidationMessage(formMode, 'msg')
+                                    validationMessageRender(error, formMode, 'msg')
+                                    return
+                                }
+
+                                showSwal(response.responseJSON.message, response.responseJSON.status)
+                            }
+                        })
+                    }
+                `
+            }
+
+            finalResult += datatable() + updateData() + deleteData() + callApi()
+
+            finalResult += `</script>`
+
+            return finalResult
+        }
+
+        let modalHtmlString = ReactDOMServer.renderToString(generateModal('create'))
+        modalHtmlString += ReactDOMServer.renderToString(generateModal('update'))
+        this.setState({ blueprintFormHtmlString: modalHtmlString })
         this.setState((prevState, props) => ({
             results: [...prevState.results, {
                 fileName: 'modal.blade.php',
                 description: '',
-                code: htmlString
+                code: modalHtmlString
             }]
         }))
+
+        let indexHtmlString = generateIndexPage() + generateScript()
         this.setState((prevState, props) => ({
             results: [...prevState.results, {
                 fileName: 'index.blade.php',
                 description: '',
-                code: 'index...'
+                code: indexHtmlString
             }]
         }))
     }
@@ -381,6 +422,31 @@ class ProjectCanvas extends Component {
     generateLogicFromState() {
         if (this.state.projectCanvas['platform'] === undefined) {
             return;
+        }
+
+        function generateDatatables(inputs) {
+            let finalResult
+
+            finalResult = `
+            // Get data here
+            // $data = ....
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('actions', function ($row) {
+                    $btn = '';
+
+                    $btn .= '<a href="javascript:void(0)" class="btn btn-outline-warning btn-sm btn-update me-1" data-detail="' . htmlspecialchars($row) . '"  data-id=' . $row->id . '><i class="bi bi-pencil-square"></i> Edit</a>';
+
+                    $btn .= '<a href="javascript:void(0)" class="btn btn-outline-danger btn-sm btn-delete" data-id=' . $row->id . '><i class="bi bi-trash-fill"></i> Delete</a>';
+
+                    return $btn;
+                })
+                ->rawColumns(['actions'])
+                ->make(true);
+            `
+
+            return finalResult
         }
 
         function generateValidation(inputs) {
@@ -409,16 +475,16 @@ class ProjectCanvas extends Component {
         }
 
         function generateCreateData(inputs) {
-            let finalResult
+            let finalResult = ``
 
-            let uploadFile = () => {
-                let result
+            let uploadFile = (inputs) => {
+                let result = ``
 
-                // inputs.map(input => {
-                //     if (input.attributes.type === 'file' && input.storePath !== null) {
-                //         result += `$validator['${input.attributes.name}'] = $request->file('${input.attributes.name}')->store('${input.storePath}');`
-                //     }
-                // })
+                inputs.map(input => {
+                    if (input.attributes.type === 'file' && input.storePath !== null) {
+                        result += `\n $validator['${input.attributes.name}'] = $request->file('${input.attributes.name}')->store('${input.storePath}');`
+                    }
+                })
 
                 return result
             }
@@ -427,13 +493,12 @@ class ProjectCanvas extends Component {
             finalResult += `try {
                 $validator = $request->all();
                 
-                ${uploadFile()}
+                ${uploadFile(inputs)}
                 
                 // Inserting data....
                 
                 // Create logging here....
-                
-                // Result....
+
 
                 return response()->json([
                     'status'    => 'success',
@@ -453,69 +518,98 @@ class ProjectCanvas extends Component {
             return finalResult
         }
 
-        // FINAL RESULT VARIABLE
-        let finalResults = []
-
         // header class
         let mainLogic =
             `<?php
 
-/*
-    This code is generated by crud-generator.beta.dimasnugroho673.github.io
-    @https://github.com/dimasnugroho673
-    
-    This generator using beta version, still check and test your code before paste to production
-*/
+        /*
+            This code is generated by crud-generator.beta.dimasnugroho673.github.io
+            @https://github.com/dimasnugroho673
+            
+            This generator using beta version, still check and test your code before paste to production
+        */
 
-namespace App\Http\Controllers\Master;
+        namespace App\\Http\\Controllers\\Master;
 
-use Exception;
-... your model here
-use Illuminate\\Http\\Request;
-use App\\Http\\Controllers\\Controller;
-use Illuminate\\Support\\Facades\\Storage;
-use Illuminate\\Support\\Facades\\Validator;
+        use Exception;
+        ... your model here
+        use App\\Helpers\\Helper;
+        use Illuminate\\Http\\Request;
+        use App\\Http\\Controllers\\Controller;
+        use Illuminate\\Support\\Facades\\Storage;
+        use Yajra\\DataTables\\DataTables;
+        use Illuminate\\Support\\Facades\\Validator;
 
-// insert your dependency namespace here....
+        // insert your dependency namespace here....
 
-class ${this.state.projectCanvas.titleProject}Controller extends Controller {
+        class ${this.state.projectCanvas.titleProject}Controller extends Controller {
 
-    public function index(Request $request) { 
-        return 'view ${this.state.projectCanvas.titleProject}';
-    }
+            private $title = "${this.state.projectCanvas.titleProject}";
+            private $subtitle = "Master ${this.state.projectCanvas.titleProject}"
 
-    public function store(Request $request) {
-        ${generateValidation(this.state.projectCanvas.blueprintForm.flat())}   
+            public function index(Request $request) { 
+                if ($request->ajax()) {
+                    ${generateDatatables(this.state.projectCanvas.blueprintForm.flat())}
+                }
 
-        ${generateCreateData(this.state.projectCanvas.blueprintForm)}
-    }
+                $data['title'] = $this->title;
+                $data['subtitle'] = $this->subtitle;
 
-    public function update(Request $request, $id) {
-        // your update code here....
-    }
+                return view('admin.master.${this.state.projectCanvas.titleProject.toLowerCase()}.index', $data);
+            }
 
-    public function destroy($id) {
-        try {
-            // delete data here....
+            public function store(Request $request) {
+                ${generateValidation(this.state.projectCanvas.blueprintForm.flat())}   
 
-            // delete unneccessary file...
+                ${generateCreateData(this.state.projectCanvas.blueprintForm.flat())}
+            }
 
-            // update log...
+            public function update(Request $request, $id) {
+                ${generateValidation(this.state.projectCanvas.blueprintForm.flat())}
 
-            return response()->json([
-                'status'    => 'success',
-                'message'   => 'Berhasil menghapus data',
-                'data'      => null
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'status'    => 'error',
-                'message'   => 'Gagal menghapus data, ' . $e->getMessage(),
-                'data'      => null
-            ], 500);
-        }
-    }
-}`
+                try {
+                    // update data here....
+
+                    // update file...
+
+                    // update log...
+
+                    return response()->json([
+                        'status'    => 'success',
+                        'message'   => 'Berhasil mengubah data',
+                        'data'      => null
+                    ], 200);
+                } catch (Exception $e) {
+                    return response()->json([
+                        'status'    => 'error',
+                        'message'   => 'Gagal mengubah data, ' . $e->getMessage(),
+                        'data'      => null
+                    ], 500);
+                }
+            }
+
+            public function destroy($id) {
+                try {
+                    // delete data here....
+
+                    // delete unneccessary file...
+
+                    // update log...
+
+                    return response()->json([
+                        'status'    => 'success',
+                        'message'   => 'Berhasil menghapus data',
+                        'data'      => null
+                    ], 200);
+                } catch (Exception $e) {
+                    return response()->json([
+                        'status'    => 'error',
+                        'message'   => 'Gagal menghapus data, ' . $e->getMessage(),
+                        'data'      => null
+                    ], 500);
+                }
+            }
+        }`
 
         // finalResults.push(mainLogic)
         this.setState((prevState, props) => ({
@@ -552,51 +646,51 @@ class ${this.state.projectCanvas.titleProject}Controller extends Controller {
     }
 
     async sendDatAnalytic() {
-        try {
-            const database = getFirestore(firebaseConf)
-            const addHistory = await addDoc(collection(database, "histories"), {
-                templateVersion: this.state.projectCanvas.templateVersion,
-                titleProject: this.state.projectCanvas.titleProject,
-                platform: this.state.projectCanvas.platform,
-                crudType: this.state.projectCanvas.crudType,
-                createProjectFrom: this.state.projectCanvas.createProjectFrom,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            })
-            // console.log("Document written with ID: ", addHistory.id)
+        // try {
+        //     const database = getFirestore(firebaseConf)
+        //     const addHistory = await addDoc(collection(database, "histories"), {
+        //         templateVersion: this.state.projectCanvas.templateVersion,
+        //         titleProject: this.state.projectCanvas.titleProject,
+        //         platform: this.state.projectCanvas.platform,
+        //         crudType: this.state.projectCanvas.crudType,
+        //         createProjectFrom: this.state.projectCanvas.createProjectFrom,
+        //         createdAt: new Date(),
+        //         updatedAt: new Date()
+        //     })
+        //     // console.log("Document written with ID: ", addHistory.id)
 
-            await getDocs(query(collection(database, "histories_per_platform"), where(documentId(), "==", this.state.projectCanvas.platform)))
-                .then((snapshot) => {
-                    if (snapshot.docs.length >= 1) {
-                        let data = snapshot.docs[0].data()
-                        data.historiesDocId.push(addHistory.id)
+        //     await getDocs(query(collection(database, "histories_per_platform"), where(documentId(), "==", this.state.projectCanvas.platform)))
+        //         .then((snapshot) => {
+        //             if (snapshot.docs.length >= 1) {
+        //                 let data = snapshot.docs[0].data()
+        //                 data.historiesDocId.push(addHistory.id)
 
-                        updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), {
-                            count: data.count + 1,
-                            historiesDocId: data.historiesDocId
-                        })
-                    }
-                })
+        //                 updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), {
+        //                     count: data.count + 1,
+        //                     historiesDocId: data.historiesDocId
+        //                 })
+        //             }
+        //         })
 
-            // const addHistoryPerPlatform = await updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), { 
-            //     count: Subject 
-            // })
+        //     // const addHistoryPerPlatform = await updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), { 
+        //     //     count: Subject 
+        //     // })
 
-            // const addHistoryPerPlatform = await addDoc(collection(database, "histories_per_platform"), {
-            //     templateVersion: this.state.projectCanvas.templateVersion,
-            //     titleProject: this.state.projectCanvas.titleProject,
-            //     platform: this.state.projectCanvas.platform,
-            //     crudType: this.state.projectCanvas.crudType,
-            //     createProjectFrom: this.state.projectCanvas.createProjectFrom,
-            //     createdAt: new Date(),
-            //     updatedAt: new Date()
-            // })
-            // console.log("Document written with ID: ", addHistoryPerPlatform.id)
+        //     // const addHistoryPerPlatform = await addDoc(collection(database, "histories_per_platform"), {
+        //     //     templateVersion: this.state.projectCanvas.templateVersion,
+        //     //     titleProject: this.state.projectCanvas.titleProject,
+        //     //     platform: this.state.projectCanvas.platform,
+        //     //     crudType: this.state.projectCanvas.crudType,
+        //     //     createProjectFrom: this.state.projectCanvas.createProjectFrom,
+        //     //     createdAt: new Date(),
+        //     //     updatedAt: new Date()
+        //     // })
+        //     // console.log("Document written with ID: ", addHistoryPerPlatform.id)
 
 
-        } catch (e) {
-            console.error("Error adding document: ", e)
-        }
+        // } catch (e) {
+        //     console.error("Error adding document: ", e)
+        // }
     }
 
     handleStartCanvas(e) {
