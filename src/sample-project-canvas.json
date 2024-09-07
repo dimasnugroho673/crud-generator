@@ -110,14 +110,14 @@
         "attributes": {
           "type": "file",
           "class": "form-control",
-          "id": "create-foto_ruangan",
-          "name": "foto_ruangan"
+          "id": "create-foto_ruangan2",
+          "name": "foto_ruangan2"
         },
         "validation": {
           "type": "serverside",
           "rules": "required|mimes:jpg,jpeg,png|max:2048"
         },
-        "storePath": "/foto_ruangan"
+        "storePath": "/foto_ruangan2"
       }
     ]
   ]
