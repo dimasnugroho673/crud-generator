@@ -132,6 +132,10 @@ class ProjectCanvas extends Component {
             return;
         }
 
+        if (this.state.projectCanvas.crudType === 'api') {
+            return;
+        }
+
         let blueprints = this.state.projectCanvas.blueprintForm
         let inputs = blueprints.flat()
         let totalRow = blueprints.length
@@ -429,7 +433,7 @@ class ProjectCanvas extends Component {
 
             finalResult = `
             // Get data here
-            // $data = ....
+            $data = YourModel::all();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -466,10 +470,37 @@ class ProjectCanvas extends Component {
                     'message'   => 'Ooopps',
                     'errors'    => $validator->errors()
                 ], 422);
-                }
+            }
             `
 
             finalResult = fieldAssignRules + returnBackValidationFail
+
+            return finalResult
+        }
+
+        const generateIndex = () => {
+            let finalResult = ``
+
+            if (this.state.projectCanvas.crudType === 'api') {
+                finalResult += `
+                return return response()->json([
+                    'status'    => 'success',
+                    'message'   => 'Berhasil menampilkan data',
+                    'data'      => YourModel::paginate(10)
+                ], 200);
+                `
+            } else if (this.state.projectCanvas.crudType === 'modal') {
+                finalResult += `
+                if ($request->ajax()) {
+                    ${generateDatatables(this.state.projectCanvas.blueprintForm.flat())}
+                }
+
+                $data['title'] = $this->title;
+                $data['subtitle'] = $this->subtitle;
+
+                return view('admin.master.${this.state.projectCanvas.titleProject.toLowerCase()}.index', $data);
+                `
+            }
 
             return finalResult
         }
@@ -496,9 +527,10 @@ class ProjectCanvas extends Component {
                 ${uploadFile(inputs)}
                 
                 // Inserting data....
+                YourModel::create($validator);
                 
                 // Create logging here....
-
+                Helper::insertLog("Menambahkan data $this->title");
 
                 return response()->json([
                     'status'    => 'success',
@@ -518,6 +550,79 @@ class ProjectCanvas extends Component {
             return finalResult
         }
 
+        function hasFile(inputs) {
+            let hasFileExist = false
+
+            inputs.map(input => {
+                if (input.attributes.type === 'file' && input.storePath !== null) {
+                    hasFileExist = true
+                }
+            })
+
+            return hasFileExist
+        }
+
+        function generateUpdateData(inputs) {
+            let finalResult = ``
+
+            let uploadFile = (inputs) => {
+                let result = ``
+
+                inputs.map(input => {
+                    if (input.attributes.type === 'file' && input.storePath !== null) {
+                        result += `\n $validator['${input.attributes.name}'] = $request->file('${input.attributes.name}')->store('${input.storePath}');`
+                    }
+                })
+
+                return result
+            }
+
+            let deleteFile = (inputs) => {
+                let result = ``
+
+                inputs.map(input => {
+                    if (input.attributes.type === 'file' && input.storePath !== null) {
+                        result += `Storage::delete($old_data->${input.attributes.name});`
+                    }
+                })
+
+                return result
+            }
+
+            finalResult += `try {
+                $validator = $request->all();
+
+                // getting old data
+                $old_data = YourModel::find($id);
+
+                // update data here....
+                YourModel::find($id)->update($validator);
+
+                // update file...
+                ${uploadFile(inputs)}
+
+                // delete old file
+                ${deleteFile(inputs)}
+
+                // update log...
+                Helper::insertLog("Mengubah data $this->title");
+
+                return response()->json([
+                    'status'    => 'success',
+                    'message'   => 'Berhasil mengubah data',
+                    'data'      => null
+                ], 200);
+            } catch (Exception $e) {
+                return response()->json([
+                    'status'    => 'error',
+                    'message'   => 'Gagal mengubah data, ' . $e->getMessage(),
+                    'data'      => null
+                ], 500);
+            }`
+
+            return finalResult
+        }
+
         // header class
         let mainLogic =
             `<?php
@@ -532,30 +637,23 @@ class ProjectCanvas extends Component {
         namespace App\\Http\\Controllers\\Master;
 
         use Exception;
-        ... your model here
         use App\\Helpers\\Helper;
         use Illuminate\\Http\\Request;
         use App\\Http\\Controllers\\Controller;
-        use Illuminate\\Support\\Facades\\Storage;
+        ${hasFile(this.state.projectCanvas.blueprintForm.flat()) ? 'use Illuminate\\Support\\Facades\\Storage;' : '' }
         use Yajra\\DataTables\\DataTables;
         use Illuminate\\Support\\Facades\\Validator;
+        use App\\Models\\YourModel;
 
         // insert your dependency namespace here....
 
         class ${this.state.projectCanvas.titleProject}Controller extends Controller {
 
             private $title = "${this.state.projectCanvas.titleProject}";
-            private $subtitle = "Master ${this.state.projectCanvas.titleProject}"
+            private $subtitle = "Master ${this.state.projectCanvas.titleProject}";
 
             public function index(Request $request) { 
-                if ($request->ajax()) {
-                    ${generateDatatables(this.state.projectCanvas.blueprintForm.flat())}
-                }
-
-                $data['title'] = $this->title;
-                $data['subtitle'] = $this->subtitle;
-
-                return view('admin.master.${this.state.projectCanvas.titleProject.toLowerCase()}.index', $data);
+               ${generateIndex()}
             }
 
             public function store(Request $request) {
@@ -567,34 +665,22 @@ class ProjectCanvas extends Component {
             public function update(Request $request, $id) {
                 ${generateValidation(this.state.projectCanvas.blueprintForm.flat())}
 
-                try {
-                    // update data here....
-
-                    // update file...
-
-                    // update log...
-
-                    return response()->json([
-                        'status'    => 'success',
-                        'message'   => 'Berhasil mengubah data',
-                        'data'      => null
-                    ], 200);
-                } catch (Exception $e) {
-                    return response()->json([
-                        'status'    => 'error',
-                        'message'   => 'Gagal mengubah data, ' . $e->getMessage(),
-                        'data'      => null
-                    ], 500);
-                }
+                ${generateUpdateData(this.state.projectCanvas.blueprintForm.flat())}
             }
 
             public function destroy($id) {
                 try {
+                    // getting old data
+                    $old_data = YourModel::find($id);
+
                     // delete data here....
+                    YourModel::destroy($id);
 
                     // delete unneccessary file...
+                    // Storage::delete(path....);
 
                     // update log...
+                    Helper::insertLog("Menghapus data $this->title");
 
                     return response()->json([
                         'status'    => 'success',
