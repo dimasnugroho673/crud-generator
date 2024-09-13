@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import ReactDOMServer from "react-dom/server";
 import { collection, getDocs, getFirestore, query, where, db } from "firebase/firestore";
 import firebaseConf from '../../utils/firebase-config';
+import PanelLayout from "../layouts/panel/layout";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -92,94 +93,95 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="page-wrapper">
-        <div className="page-header d-print-none">
-          <div className="container-xl">
-            <div className="row g-2 align-items-center">
-              <div className="col">
+      <PanelLayout>
+        <div className="page-wrapper">
+          <div className="page-header d-print-none">
+            <div className="container-xl">
+              <div className="row g-2 align-items-center">
+                <div className="col">
 
-                <div className="page-pretitle">
-                  Apps
+                  <div className="page-pretitle">
+                    Apps
+                  </div>
+                  <h2 className="page-title">
+                    Dashboard
+                  </h2>
                 </div>
-                <h2 className="page-title">
-                  Dashboard
-                </h2>
-              </div>
 
-              <div className="col-auto ms-auto d-print-none">
-                <div className="btn-list">
+                <div className="col-auto ms-auto d-print-none">
+                  <div className="btn-list">
 
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="page-body">
-          <div className="container-xl">
-            <div className="row row-deck row-cards mb-4">
-              <div class="col-sm-6 col-lg-3">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center">
-                      <div class="subheader">Sales</div>
-                      <div class="ms-auto lh-1">
-                        <div class="dropdown">
-                          <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
-                          <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item active" href="#">Last 7 days</a>
-                            <a class="dropdown-item" href="#">Last 30 days</a>
-                            <a class="dropdown-item" href="#">Last 3 months</a>
+          <div className="page-body">
+            <div className="container-xl">
+              <div className="row row-deck row-cards mb-4">
+                <div class="col-sm-6 col-lg-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        <div class="subheader">Sales</div>
+                        <div class="ms-auto lh-1">
+                          <div class="dropdown">
+                            <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                              <a class="dropdown-item active" href="#">Last 7 days</a>
+                              <a class="dropdown-item" href="#">Last 30 days</a>
+                              <a class="dropdown-item" href="#">Last 3 months</a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="h1 mb-3">75%</div>
-                    <div class="d-flex mb-2">
-                      <div>Conversion rate</div>
-                      <div class="ms-auto">
-                        <span class="text-green d-inline-flex align-items-center lh-1">
-                          7%
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon ms-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 17l6 -6l4 4l8 -8"></path><path d="M14 7l7 0l0 7"></path></svg>
-                        </span>
+                      <div class="h1 mb-3">75%</div>
+                      <div class="d-flex mb-2">
+                        <div>Conversion rate</div>
+                        <div class="ms-auto">
+                          <span class="text-green d-inline-flex align-items-center lh-1">
+                            7%
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon ms-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 17l6 -6l4 4l8 -8"></path><path d="M14 7l7 0l0 7"></path></svg>
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    <div class="progress progress-sm">
-                      <div className="progress-bar bg-primary" style={{ width: '75%' }} role="progressbar" aria-valuenow={75} aria-valuemin={0} aria-valuemax={100} aria-label="75% Complete">
-                        <span className="visually-hidden">75% Complete</span>
-                      </div>
+                      <div class="progress progress-sm">
+                        <div className="progress-bar bg-primary" style={{ width: '75%' }} role="progressbar" aria-valuenow={75} aria-valuemin={0} aria-valuemax={100} aria-label="75% Complete">
+                          <span className="visually-hidden">75% Complete</span>
+                        </div>
 
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center">
-                      <div class="subheader">Revenue</div>
-                      <div class="ms-auto lh-1">
-                        <div class="dropdown">
-                          <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
-                          <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item active" href="#">Last 7 days</a>
-                            <a class="dropdown-item" href="#">Last 30 days</a>
-                            <a class="dropdown-item" href="#">Last 3 months</a>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        <div class="subheader">Revenue</div>
+                        <div class="ms-auto lh-1">
+                          <div class="dropdown">
+                            <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                              <a class="dropdown-item active" href="#">Last 7 days</a>
+                              <a class="dropdown-item" href="#">Last 30 days</a>
+                              <a class="dropdown-item" href="#">Last 3 months</a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="d-flex align-items-baseline">
-                      <div class="h1 mb-0 me-2">$4,300</div>
-                      <div class="me-auto">
-                        <span class="text-green d-inline-flex align-items-center lh-1">
-                          8%
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon ms-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 17l6 -6l4 4l8 -8"></path><path d="M14 7l7 0l0 7"></path></svg>
-                        </span>
+                      <div class="d-flex align-items-baseline">
+                        <div class="h1 mb-0 me-2">$4,300</div>
+                        <div class="me-auto">
+                          <span class="text-green d-inline-flex align-items-center lh-1">
+                            8%
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon ms-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 17l6 -6l4 4l8 -8"></path><path d="M14 7l7 0l0 7"></path></svg>
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {/* <div id="chart-revenue-bg" className="chart-sm" style={{ minHeight: 40 }}>
+                    {/* <div id="chart-revenue-bg" className="chart-sm" style={{ minHeight: 40 }}>
                     <div id="apexchartsz8ot903m" className="apexcharts-canvas apexchartsz8ot903m apexcharts-theme-light" style={{ width: 278, height: 40 }}>
                       <svg id="SvgjsSvg2167" width={278} height={40} xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsxlink="http://www.w3.org/1999/xlink" xmlnssvgjs="http://svgjs.dev" className="apexcharts-svg" xmlnsdata="ApexChartsNS" transform="translate(0, 0)" style={{ background: 'transparent' }}>
                         <foreignObject x={0} y={0} width={278} height={40}>
@@ -248,131 +250,132 @@ class Dashboard extends Component {
                     </div>
                   </div> */}
 
-                </div>
-              </div>
-            </div>
-            <div className="row row-deck row-cards mb-4">
-              <div class="col-12">
-                <div class="row row-cards">
-                  <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                      <div class="card-body">
-                        <div class="row align-items-center">
-                          <div class="col-auto">
-                            <span class="bg-primary text-white avatar">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"></path><path d="M12 3v3m0 12v3"></path></svg>
-                            </span>
-                          </div>
-                          <div class="col">
-                            <div class="font-weight-medium">
-                              {this.state.totalGenerated.isLoading ? this.renderSpinner('start') : this.state.totalGenerated.data}
-                            </div>
-                            <div class="text-secondary">
-                              Project generated
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                      <div class="card-body">
-                        <div class="row align-items-center">
-                          <div class="col-auto">
-                            <span class="bg-green text-white avatar">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M17 17h-11v-14h-2"></path><path d="M6 5l14 1l-1 7h-13"></path></svg>
-                            </span>
-                          </div>
-                          <div class="col">
-                            <div class="font-weight-medium">
-                              78 Orders
-                            </div>
-                            <div class="text-secondary">
-                              32 shipped
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                      <div class="card-body">
-                        <div class="row align-items-center">
-                          <div class="col-auto">
-                            <span class="bg-x text-white avatar">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
-                            </span>
-                          </div>
-                          <div class="col">
-                            <div class="font-weight-medium">
-                              623 Shares
-                            </div>
-                            <div class="text-secondary">
-                              16 today
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                      <div class="card-body">
-                        <div class="row align-items-center">
-                          <div class="col-auto">
-                            <span class="bg-facebook text-white avatar">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path></svg>
-                            </span>
-                          </div>
-                          <div class="col">
-                            <div class="font-weight-medium">
-                              132 Likes
-                            </div>
-                            <div class="text-secondary">
-                              21 today
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="row row-deck row-cards">
-              <div className="col-md-6 col-lg-4">
-                <div className="card">
-                  <div className="card-header">
-                    <h3 className="card-title">Platform generated</h3>
+              <div className="row row-deck row-cards mb-4">
+                <div class="col-12">
+                  <div class="row row-cards">
+                    <div class="col-sm-6 col-lg-3">
+                      <div class="card card-sm">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <span class="bg-primary text-white avatar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"></path><path d="M12 3v3m0 12v3"></path></svg>
+                              </span>
+                            </div>
+                            <div class="col">
+                              <div class="font-weight-medium">
+                                {this.state.totalGenerated.isLoading ? this.renderSpinner('start') : this.state.totalGenerated.data}
+                              </div>
+                              <div class="text-secondary">
+                                Project generated
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                      <div class="card card-sm">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <span class="bg-green text-white avatar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path d="M17 17h-11v-14h-2"></path><path d="M6 5l14 1l-1 7h-13"></path></svg>
+                              </span>
+                            </div>
+                            <div class="col">
+                              <div class="font-weight-medium">
+                                78 Orders
+                              </div>
+                              <div class="text-secondary">
+                                32 shipped
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                      <div class="card card-sm">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <span class="bg-x text-white avatar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
+                              </span>
+                            </div>
+                            <div class="col">
+                              <div class="font-weight-medium">
+                                623 Shares
+                              </div>
+                              <div class="text-secondary">
+                                16 today
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                      <div class="card card-sm">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-auto">
+                              <span class="bg-facebook text-white avatar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path></svg>
+                              </span>
+                            </div>
+                            <div class="col">
+                              <div class="font-weight-medium">
+                                132 Likes
+                              </div>
+                              <div class="text-secondary">
+                                21 today
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <table className="table card-table table-vcenter">
-                    <thead>
-                      <tr>
-                        <th>Platform</th>
-                        <th colSpan={2}>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.historiesPerPlatform.isLoading ? (
+                </div>
+              </div>
+              <div className="row row-deck row-cards">
+                <div className="col-md-6 col-lg-4">
+                  <div className="card">
+                    <div className="card-header">
+                      <h3 className="card-title">Platform generated</h3>
+                    </div>
+                    <table className="table card-table table-vcenter">
+                      <thead>
                         <tr>
-                          <td colSpan={2}>{this.renderSpinner()}</td>
-                        </tr>) : this.state.historiesPerPlatform.data.map((data, key) => {
-                          return <tr key={key}>
-                            <td>{data.platform}</td>
-                            <td>{data.count}</td>
-                          </tr>
-                        })}
-                    </tbody>
-                  </table>
+                          <th>Platform</th>
+                          <th colSpan={2}>Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.state.historiesPerPlatform.isLoading ? (
+                          <tr>
+                            <td colSpan={2}>{this.renderSpinner()}</td>
+                          </tr>) : this.state.historiesPerPlatform.data.map((data, key) => {
+                            return <tr key={key}>
+                              <td>{data.platform}</td>
+                              <td>{data.count}</td>
+                            </tr>
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
 
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </PanelLayout>
     )
   }
 }
