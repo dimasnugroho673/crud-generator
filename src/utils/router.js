@@ -20,7 +20,7 @@ const loading = (
 // export default routes;
 
 export const Routes = () => (
-< BrowserRouter basename={`/crud-generator.beta.dimasnugroho673.github.io`}>
+< BrowserRouter basename={`/crud-generator`}>
     <React.Suspense fallback={loading}>
       <Switch>
         {/* <Route exact path="/" name="Home" render={props => <Home {...props} />} /> */}
@@ -28,6 +28,7 @@ export const Routes = () => (
         <PrivateRoute path="/dashboard" name="Dashboard" component={Dashboard} />
         <PrivateRoute path="/project-canvas" name="Project canvas" component={ProjectCanvas} />
         <Route path="" render={props => <Home {...props} />} />
+        <Route path="*" render={props => <>404. Not found</>} />
         {/* <Route path="/dashboard" name="Dashboard" render={props => <Dashboard {...props} />} /> */}
         {/* <Route path="/project-canvas" name="Project canvas" render={props => <ProjectCanvas {...props} />} /> */}
       </Switch>

@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
+
 export default function PanelLayout(props) {
-    return (
-        <div>
+  return (
+    <div>
       <div class="page">
         <aside class="navbar navbar-vertical navbar-expand-lg" data-bs-theme="dark">
           <div class="container-fluid">
@@ -203,13 +205,13 @@ export default function PanelLayout(props) {
             <div class="collapse navbar-collapse" id="sidebar-menu">
               <ul class="navbar-nav pt-lg-3">
                 <li class="nav-item mt-4 ms-3 mb-4">
-                  <a class="btn btn-lg btn-light rounded-pill fw-bold" href="/project-canvas">
+                  <Link class="btn btn-lg btn-light rounded-pill fw-bold" to="/project-canvas">
                     <i class="bi bi-plus-lg force-bi-bold-1 me-2"></i>
                     Create
-                  </a>
+                  </Link>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/dashboard">
+                  <Link className="nav-link" to="/dashboard">
                     <span
                       class="nav-link-icon d-md-none d-lg-inline-block">
                       <i class="bi bi-columns-gap"></i>
@@ -225,10 +227,10 @@ export default function PanelLayout(props) {
                     <span class="nav-link-title">
                       Dashboard
                     </span>
-                  </a>
+                  </Link>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/project-canvas">
+                  <Link className="nav-link" to="/project-canvas">
                     <span
                       class="nav-link-icon d-md-none d-lg-inline-block">
                       <i class="bi bi-file-earmark-code"></i>
@@ -236,7 +238,7 @@ export default function PanelLayout(props) {
                     <span class="nav-link-title">
                       Project
                     </span>
-                  </a>
+                  </Link>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
@@ -277,5 +279,5 @@ export default function PanelLayout(props) {
 
       </div>
     </div>
-    )
+  )
 }

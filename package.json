@@ -1,7 +1,7 @@
 {
   "name": "laraci-boilerplate-generator",
   "version": "0.1.0",
-  "homepage": "http://dimasnugroho673.github.io/crud-generator.beta.dimasnugroho673.github.io",
+  "homepage": "http://dimasnugroho673.github.io/crud-generator",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -20,11 +20,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp build/index.html build/404.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

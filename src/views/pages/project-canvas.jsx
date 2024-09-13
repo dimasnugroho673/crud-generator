@@ -21,7 +21,11 @@ class ProjectCanvas extends Component {
             projectCanvas: {
                 createProjectFrom: null
             },
-            blueprintFormHtmlString: ""
+            blueprintFormHtmlString: "",
+            histories: {
+                isLoading: true,
+                data: []
+            }
         }
         this.handleImportProjectTemplate = this.handleImportProjectTemplate.bind(this)
         this.handleStartCanvas = this.handleStartCanvas.bind(this)
@@ -731,123 +735,160 @@ class ProjectCanvas extends Component {
         // generateCanvas()
 
         this.setState({ loadingGeneratedResults: this.fragmentMakeMeAwesome() })
+        this.fetchHistory()
     }
 
     handleImportProjectTemplate(type, e) {
         console.log(e)
     }
 
-    async sendDatAnalytic() {
-        // try {
-        //     const database = getFirestore(firebaseConf)
-        //     const addHistory = await addDoc(collection(database, "histories"), {
-        //         templateVersion: this.state.projectCanvas.templateVersion,
-        //         titleProject: this.state.projectCanvas.titleProject,
-        //         platform: this.state.projectCanvas.platform,
-        //         crudType: this.state.projectCanvas.crudType,
-        //         createProjectFrom: this.state.projectCanvas.createProjectFrom,
-        //         createdAt: new Date(),
-        //         updatedAt: new Date()
-        //     })
-        //     // console.log("Document written with ID: ", addHistory.id)
+    async fetchHistory() {
+        const database = getFirestore(firebaseConf)
+        return await getDocs(query(collection(database, "histories"), where("userId", "==", JSON.parse(localStorage.getItem('credentials')).userId)))
+            .then((snapshot) => {
+                let snapshotHistories = []
+                snapshot.docs.map(data => {
+                    snapshotHistories.push(data.data())
+                })
 
-        //     await getDocs(query(collection(database, "histories_per_platform"), where(documentId(), "==", this.state.projectCanvas.platform)))
-        //         .then((snapshot) => {
-        //             if (snapshot.docs.length >= 1) {
-        //                 let data = snapshot.docs[0].data()
-        //                 data.historiesDocId.push(addHistory.id)
+                let newHistories = {
+                    isLoading: false,
+                    data: snapshotHistories
+                }
 
-        //                 updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), {
-        //                     count: data.count + 1,
-        //                     historiesDocId: data.historiesDocId
-        //                 })
-        //             }
-        //         })
+                console.log(newHistories)
 
-        //     // const addHistoryPerPlatform = await updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), { 
-        //     //     count: Subject 
-        //     // })
-
-        //     // const addHistoryPerPlatform = await addDoc(collection(database, "histories_per_platform"), {
-        //     //     templateVersion: this.state.projectCanvas.templateVersion,
-        //     //     titleProject: this.state.projectCanvas.titleProject,
-        //     //     platform: this.state.projectCanvas.platform,
-        //     //     crudType: this.state.projectCanvas.crudType,
-        //     //     createProjectFrom: this.state.projectCanvas.createProjectFrom,
-        //     //     createdAt: new Date(),
-        //     //     updatedAt: new Date()
-        //     // })
-        //     // console.log("Document written with ID: ", addHistoryPerPlatform.id)
-
-
-        // } catch (e) {
-        //     console.error("Error adding document: ", e)
-        // }
+                this.setState({ histories: newHistories })
+            })
     }
 
-    handleStartCanvas() {
+    async sendDatAnalytic() {
+        try {
+            const database = getFirestore(firebaseConf)
+            const addHistory = await addDoc(collection(database, "histories"), {
+                templateVersion: this.state.projectCanvas.templateVersion,
+                titleProject: this.state.projectCanvas.titleProject,
+                platform: this.state.projectCanvas.platform,
+                crudType: this.state.projectCanvas.crudType,
+                createProjectFrom: this.state.projectCanvas.createProjectFrom,
+                payload: JSON.stringify(this.state.projectCanvas),
+                userId: JSON.parse(localStorage.getItem('credentials')).userId,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            })
+            // console.log("Document written with ID: ", addHistory.id)
 
-        this.setState({ isLoadingGeneratedResults: true })
+            await getDocs(query(collection(database, "histories_per_platform"), where(documentId(), "==", this.state.projectCanvas.platform)))
+                .then((snapshot) => {
+                    if (snapshot.docs.length >= 1) {
+                        let data = snapshot.docs[0].data()
+                        data.historiesDocId.push(addHistory.id)
 
-        let sourceTemplate
-        if (this.state.projectCanvas.createProjectFrom === 'import_text') {
-            this.setState({ loadingGeneratedResults: this.fragmentGeneratingResult('Validating JSON...') })
-
-            setTimeout(() => {
-                try {
-                    sourceTemplate = document.querySelector('#create-import_text').value
-
-                    sourceTemplate = JSON.parse(sourceTemplate)
-                    sourceTemplate['createProjectFrom'] = 'import_text'
-
-                    setTimeout(() => {
-                        this.setState({ projectCanvas: sourceTemplate }, () => {
-                            this.generatePureHtmlFromState()
-                            this.generateLogicFromState()
-                            this.sendDatAnalytic()
+                        updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), {
+                            count: data.count + 1,
+                            historiesDocId: data.historiesDocId
                         })
-                    }, 2000)
-                } catch (error) {
-                    alert('Validating JSON failed: ' + error.message)
-                } finally {
-                    document.querySelector('#modal-create-project .btn-close').click()
+                    }
+                })
 
-                    this.setState({ isLoadingGeneratedResults: false })
-                    this.setState({ loadingGeneratedResults: this.fragmentMakeMeAwesome() })
-                }
-            }, 500)
+            // const addHistoryPerPlatform = await updateDoc(doc(database, "histories_per_platform", this.state.projectCanvas.platform), { 
+            //     count: Subject 
+            // })
 
-        } else if (this.state.projectCanvas.createProjectFrom === 'import_file') {
-            sourceTemplate = document.getElementById("create-import_file").files[0]
+            // const addHistoryPerPlatform = await addDoc(collection(database, "histories_per_platform"), {
+            //     templateVersion: this.state.projectCanvas.templateVersion,
+            //     titleProject: this.state.projectCanvas.titleProject,
+            //     platform: this.state.projectCanvas.platform,
+            //     crudType: this.state.projectCanvas.crudType,
+            //     createProjectFrom: this.state.projectCanvas.createProjectFrom,
+            //     createdAt: new Date(),
+            //     updatedAt: new Date()
+            // })
+            // console.log("Document written with ID: ", addHistoryPerPlatform.id)
 
-            this.setState({ loadingGeneratedResults: this.fragmentGeneratingResult('Validating JSON...') })
 
-            if (sourceTemplate) {
+        } catch (e) {
+            console.error("Error adding document: ", e)
+        }
+    }
+
+    handleStartCanvas(isPreview, sourcePreview) {
+        if (isPreview) {
+            try {
+                let sourceTemplate = JSON.parse(sourcePreview)
+
+                this.setState({ projectCanvas: sourceTemplate }, () => {
+                    this.generatePureHtmlFromState()
+                    this.generateLogicFromState()
+                })
+            } catch (error) {
+                alert('Validating JSON failed: ' + error.message)
+            }
+        } else {
+            this.setState({ isLoadingGeneratedResults: true })
+
+            let sourceTemplate
+            if (this.state.projectCanvas.createProjectFrom === 'import_text') {
+                this.setState({ loadingGeneratedResults: this.fragmentGeneratingResult('Validating JSON...') })
+
                 setTimeout(() => {
-                    let reader = new FileReader()
+                    try {
+                        sourceTemplate = document.querySelector('#create-import_text').value
 
-                    reader.readAsText(sourceTemplate, "UTF-8")
-                    reader.onload = (e) => {
-                        sourceTemplate = JSON.parse(e.target.result)
-                        sourceTemplate['createProjectFrom'] = 'import_file'
+                        sourceTemplate = JSON.parse(sourceTemplate)
+                        sourceTemplate['createProjectFrom'] = 'import_text'
 
-                        this.setState({ projectCanvas: sourceTemplate }, () => {
-                            this.generatePureHtmlFromState()
-                            this.generateLogicFromState()
-                            this.sendDatAnalytic()
-                        })
+                        setTimeout(() => {
+                            this.setState({ projectCanvas: sourceTemplate }, () => {
+                                this.generatePureHtmlFromState()
+                                this.generateLogicFromState()
+                                this.sendDatAnalytic()
+                            })
+                        }, 2000)
+                    } catch (error) {
+                        alert('Validating JSON failed: ' + error.message)
+                    } finally {
+                        document.querySelector('#modal-create-project .btn-close').click()
 
                         this.setState({ isLoadingGeneratedResults: false })
+                        this.setState({ loadingGeneratedResults: this.fragmentMakeMeAwesome() })
+                    }
+                }, 500)
 
-                        document.querySelector('#modal-create-project .btn-close').click()
-                    }
-                    reader.onerror = (e) => {
-                        console.error('error read file json: ', e.target.result)
-                        // document.getElementById("fileContents").innerHTML = "error reading file";
-                    }
-                }, 2000)
+            } else if (this.state.projectCanvas.createProjectFrom === 'import_file') {
+                sourceTemplate = document.getElementById("create-import_file").files[0]
+
+                this.setState({ loadingGeneratedResults: this.fragmentGeneratingResult('Validating JSON...') })
+
+                if (sourceTemplate) {
+                    setTimeout(() => {
+                        let reader = new FileReader()
+
+                        reader.readAsText(sourceTemplate, "UTF-8")
+                        reader.onload = (e) => {
+                            sourceTemplate = JSON.parse(e.target.result)
+                            sourceTemplate['createProjectFrom'] = 'import_file'
+
+                            this.setState({ projectCanvas: sourceTemplate }, () => {
+                                this.generatePureHtmlFromState()
+                                this.generateLogicFromState()
+                                this.sendDatAnalytic()
+                            })
+
+                            this.setState({ isLoadingGeneratedResults: false })
+
+                            document.querySelector('#modal-create-project .btn-close').click()
+                        }
+                        reader.onerror = (e) => {
+                            console.error('error read file json: ', e.target.result)
+                            // document.getElementById("fileContents").innerHTML = "error reading file";
+                        }
+                    }, 2000)
+                }
             }
         }
+
+
     }
 
     handleEndCanvas() {
@@ -855,6 +896,7 @@ class ProjectCanvas extends Component {
 
         if (confirmEnd) {
             this.resetCanvas()
+            this.fetchHistory()
             alert('Canvas has been deleted!')
         }
 
@@ -935,6 +977,10 @@ class ProjectCanvas extends Component {
         return <div>{text}</div>
     }
 
+    renderHistoriesRow() {
+
+    }
+
     render() {
         return (
             <PanelLayout>
@@ -979,6 +1025,37 @@ class ProjectCanvas extends Component {
                                 <div class="alert alert-warning" role="alert">
                                     This project now beta version and only support for CRUD master data.  Consider to use this tools for boosting workflow development, and still recheck manually result generated code.
                                 </div>
+
+                                {this.state.results.length == 0 ? (
+                                    <div>
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Title project {this.state.histories.data.length}</th>
+                                                    <th scope="col">Template version</th>
+                                                    <th scope="col">Platform</th>
+                                                    <th scope="col">Crud type</th>
+                                                    <th scope="col">Created at</th>
+                                                    <th scope="col">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.state.histories.data.map((data, index) => (
+                                                    <tr key={index}>
+                                                        <td scope="row">{index + 1}</td>
+                                                        <td>{data.titleProject}</td>
+                                                        <td>{data.templateVersion}</td>
+                                                        <td>{data.platform}</td>
+                                                        <td>{data.crudType}</td>
+                                                        <td>{data.createdAt.seconds}</td>
+                                                        <td><button className="btn btn-dark" onClick={e => this.handleStartCanvas(true, data.payload)}>Preview</button></td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : ''}
 
                                 <div id="fragment-preview"></div>
 
