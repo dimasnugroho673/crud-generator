@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/crud-generator.beta.dimasnugroho673.github.io/static/css/main.40a60677.css",
-    "main.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/main.3796aeeb.js",
-    "static/js/758.6a392221.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/758.6a392221.chunk.js",
-    "static/js/97.93e1f910.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/97.93e1f910.chunk.js",
-    "static/js/453.4515dfab.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/453.4515dfab.chunk.js",
-    "index.html": "/crud-generator.beta.dimasnugroho673.github.io/index.html",
-    "main.40a60677.css.map": "/crud-generator.beta.dimasnugroho673.github.io/static/css/main.40a60677.css.map",
-    "main.3796aeeb.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/main.3796aeeb.js.map",
-    "758.6a392221.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/758.6a392221.chunk.js.map",
-    "97.93e1f910.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/97.93e1f910.chunk.js.map",
-    "453.4515dfab.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/453.4515dfab.chunk.js.map"
+    "main.css": "/static/css/main.40a60677.css",
+    "main.js": "/static/js/main.879b3b1c.js",
+    "static/js/758.6a392221.chunk.js": "/static/js/758.6a392221.chunk.js",
+    "static/js/97.93e1f910.chunk.js": "/static/js/97.93e1f910.chunk.js",
+    "static/js/453.4515dfab.chunk.js": "/static/js/453.4515dfab.chunk.js",
+    "index.html": "/index.html",
+    "main.40a60677.css.map": "/static/css/main.40a60677.css.map",
+    "main.879b3b1c.js.map": "/static/js/main.879b3b1c.js.map",
+    "758.6a392221.chunk.js.map": "/static/js/758.6a392221.chunk.js.map",
+    "97.93e1f910.chunk.js.map": "/static/js/97.93e1f910.chunk.js.map",
+    "453.4515dfab.chunk.js.map": "/static/js/453.4515dfab.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.40a60677.css",
-    "static/js/main.3796aeeb.js"
+    "static/js/main.879b3b1c.js"
   ]
 }
