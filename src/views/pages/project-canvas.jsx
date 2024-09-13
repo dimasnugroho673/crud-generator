@@ -5,7 +5,9 @@ import ReactDOMServer from "react-dom/server";
 import SampleProjectCanvasTemplateJson from '../../sample-project-canvas.json';
 import { collection, addDoc, updateDoc, getDocs, getFirestore, query, where, db, doc, documentId } from "firebase/firestore";
 import firebaseConf from '../../utils/firebase-config';
-import * as bootstrap from '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.js'
+import * as bootstrap from '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 class ProjectCanvas extends Component {
     constructor(props) {
@@ -179,40 +181,40 @@ class ProjectCanvas extends Component {
             let buttonStyle = type == 'create' ? 'btn btn-primary' : 'btn btn-warning'
 
             return <div className="modal fade" id={`modal-${type}`} tabindex="-1" aria-labelledby={`${type}-modal-label`} aria-hidden="true">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <form id={`form-${type}`}>
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id={`${type}-modal-label`}>{headerTitle} data</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                        </div>
-                        <div className="modal-body">
-                            {blueprints.map(blp => {
-                                let explodingToColumn = Math.round(12 / totalRow)
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <form id={`form-${type}`}>
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5" id={`${type}-modal-label`}>{headerTitle} data</h1>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                            </div>
+                            <div className="modal-body">
+                                {blueprints.map(blp => {
+                                    let explodingToColumn = Math.round(12 / totalRow)
 
-                                return <div className="row">{blp.map(elm => {
-                                    return <div className={`form-group${blp.length > 1 ? ' col-md-' + explodingToColumn + ' ' : ' '}mb-3`}>
-                                        <label className="mb-1" for={elm.attributes.id}>{elm.label}</label>
-                                        {generateX(elm)}
-                                        <div id={`${elm.attributes.id}-msg`}></div>
-                                    </div>
-                                })}</div>
-                            })}
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" className={buttonStyle}>{footerTitle}</button>
-                        </div>
-                    </form>
+                                    return <div className="row">{blp.map(elm => {
+                                        return <div className={`form-group${blp.length > 1 ? ' col-md-' + explodingToColumn + ' ' : ' '}mb-3`}>
+                                            <label className="mb-1" for={elm.attributes.id}>{elm.label}</label>
+                                            {generateX(elm)}
+                                            <div id={`${elm.attributes.id}-msg`}></div>
+                                        </div>
+                                    })}</div>
+                                })}
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" className={buttonStyle}>{footerTitle}</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
         }
 
         const generateIndexPage = () => {
             let finalResult = ''
 
-            const generateTable = () => { 
+            const generateTable = () => {
 
                 let generateColumn = () => {
                     let result = ''
@@ -640,7 +642,7 @@ class ProjectCanvas extends Component {
         use App\\Helpers\\Helper;
         use Illuminate\\Http\\Request;
         use App\\Http\\Controllers\\Controller;
-        ${hasFile(this.state.projectCanvas.blueprintForm.flat()) ? 'use Illuminate\\Support\\Facades\\Storage;' : '' }
+        ${hasFile(this.state.projectCanvas.blueprintForm.flat()) ? 'use Illuminate\\Support\\Facades\\Storage;' : ''}
         use Yajra\\DataTables\\DataTables;
         use Illuminate\\Support\\Facades\\Validator;
         use App\\Models\\YourModel;
@@ -849,9 +851,15 @@ class ProjectCanvas extends Component {
         return this.state.results.map(piece => {
             return <div className="form-group mb-3">
                 <label htmlFor="">{piece.fileName}</label>
-                <textarea className="form-control" rows={10} cols={30}>{piece.code}</textarea>
-                <button className="btn btn-sm btn-primary mt-2">Download file</button>
+                <SyntaxHighlighter language="html" style={solarizedlight} showLineNumbers>
+                    {piece.code}
+                </SyntaxHighlighter>
             </div>
+            // return <div className="form-group mb-3">
+            //     <label htmlFor="">{piece.fileName}</label>
+            //     <textarea className="form-control" rows={10} cols={30}>{piece.code}</textarea>
+            //     <button className="btn btn-sm btn-primary mt-2">Download file</button>
+            // </div>
         })
     }
 
