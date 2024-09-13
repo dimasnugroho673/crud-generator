@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/crud-generator/static/css/main.e6c13ad2.css",
-    "main.js": "/crud-generator/static/js/main.8459c8d3.js",
+    "main.js": "/crud-generator/static/js/main.a53ca33d.js",
     "static/js/8.296d8ecf.chunk.js": "/crud-generator/static/js/8.296d8ecf.chunk.js",
     "static/js/758.06739c6e.chunk.js": "/crud-generator/static/js/758.06739c6e.chunk.js",
-    "static/js/785.c8375962.chunk.js": "/crud-generator/static/js/785.c8375962.chunk.js",
-    "static/js/889.c78f2ce3.chunk.js": "/crud-generator/static/js/889.c78f2ce3.chunk.js",
+    "static/js/785.9b8d01ec.chunk.js": "/crud-generator/static/js/785.9b8d01ec.chunk.js",
+    "static/js/889.cd3c5052.chunk.js": "/crud-generator/static/js/889.cd3c5052.chunk.js",
     "static/js/453.4515dfab.chunk.js": "/crud-generator/static/js/453.4515dfab.chunk.js",
     "static/js/885.b3a9581e.chunk.js": "/crud-generator/static/js/885.b3a9581e.chunk.js",
     "static/js/977.d2d30d8f.chunk.js": "/crud-generator/static/js/977.d2d30d8f.chunk.js",
     "static/js/258.a59c98f4.chunk.js": "/crud-generator/static/js/258.a59c98f4.chunk.js",
     "index.html": "/crud-generator/index.html",
     "main.e6c13ad2.css.map": "/crud-generator/static/css/main.e6c13ad2.css.map",
-    "main.8459c8d3.js.map": "/crud-generator/static/js/main.8459c8d3.js.map",
+    "main.a53ca33d.js.map": "/crud-generator/static/js/main.a53ca33d.js.map",
     "8.296d8ecf.chunk.js.map": "/crud-generator/static/js/8.296d8ecf.chunk.js.map",
     "758.06739c6e.chunk.js.map": "/crud-generator/static/js/758.06739c6e.chunk.js.map",
-    "785.c8375962.chunk.js.map": "/crud-generator/static/js/785.c8375962.chunk.js.map",
-    "889.c78f2ce3.chunk.js.map": "/crud-generator/static/js/889.c78f2ce3.chunk.js.map",
+    "785.9b8d01ec.chunk.js.map": "/crud-generator/static/js/785.9b8d01ec.chunk.js.map",
+    "889.cd3c5052.chunk.js.map": "/crud-generator/static/js/889.cd3c5052.chunk.js.map",
     "453.4515dfab.chunk.js.map": "/crud-generator/static/js/453.4515dfab.chunk.js.map",
     "885.b3a9581e.chunk.js.map": "/crud-generator/static/js/885.b3a9581e.chunk.js.map",
     "977.d2d30d8f.chunk.js.map": "/crud-generator/static/js/977.d2d30d8f.chunk.js.map",
@@ -24,6 +24,6 @@
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.8459c8d3.js"
+    "static/js/main.a53ca33d.js"
   ]
 }

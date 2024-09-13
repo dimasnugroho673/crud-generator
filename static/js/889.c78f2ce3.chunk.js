@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunklaraci_boilerplate_generator=self.webpackChunklaraci_boilerplate_generator||[]).push([[889],{1889:(e,r,a)=>{a.r(r),a.d(r,{default:()=>o});var s=a(5043),n=a(2582),t=(a(7950),a(6885),a(579));class c extends s.Component{constructor(e){super(e)}render(){return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)("div",{children:"Halaman Home"}),(0,t.jsx)(n.N_,{to:"/dashboard",children:"Dashboard"}),(0,t.jsx)("br",{}),(0,t.jsx)(n.N_,{to:"/project-canvas",children:"Project Canvas"})]})}}const o=c}}]);
-//# sourceMappingURL=889.c78f2ce3.chunk.js.map
