@@ -1,29 +1,29 @@
 {
   "files": {
     "main.css": "/crud-generator.beta.dimasnugroho673.github.io/static/css/main.e6c13ad2.css",
-    "main.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/main.628b79d2.js",
-    "static/js/8.7c58190b.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/8.7c58190b.chunk.js",
-    "static/js/758.66cb0eca.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/758.66cb0eca.chunk.js",
-    "static/js/97.93e1f910.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/97.93e1f910.chunk.js",
+    "main.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/main.cff406b7.js",
+    "static/js/8.296d8ecf.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/8.296d8ecf.chunk.js",
+    "static/js/758.06739c6e.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/758.06739c6e.chunk.js",
+    "static/js/785.c8375962.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/785.c8375962.chunk.js",
     "static/js/889.c78f2ce3.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/889.c78f2ce3.chunk.js",
     "static/js/453.4515dfab.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/453.4515dfab.chunk.js",
     "static/js/885.b3a9581e.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/885.b3a9581e.chunk.js",
-    "static/js/977.af1a87ee.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/977.af1a87ee.chunk.js",
+    "static/js/977.1e6bdcde.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/977.1e6bdcde.chunk.js",
     "static/js/258.a59c98f4.chunk.js": "/crud-generator.beta.dimasnugroho673.github.io/static/js/258.a59c98f4.chunk.js",
     "index.html": "/crud-generator.beta.dimasnugroho673.github.io/index.html",
     "main.e6c13ad2.css.map": "/crud-generator.beta.dimasnugroho673.github.io/static/css/main.e6c13ad2.css.map",
-    "main.628b79d2.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/main.628b79d2.js.map",
-    "8.7c58190b.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/8.7c58190b.chunk.js.map",
-    "758.66cb0eca.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/758.66cb0eca.chunk.js.map",
-    "97.93e1f910.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/97.93e1f910.chunk.js.map",
+    "main.cff406b7.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/main.cff406b7.js.map",
+    "8.296d8ecf.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/8.296d8ecf.chunk.js.map",
+    "758.06739c6e.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/758.06739c6e.chunk.js.map",
+    "785.c8375962.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/785.c8375962.chunk.js.map",
     "889.c78f2ce3.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/889.c78f2ce3.chunk.js.map",
     "453.4515dfab.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/453.4515dfab.chunk.js.map",
     "885.b3a9581e.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/885.b3a9581e.chunk.js.map",
-    "977.af1a87ee.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/977.af1a87ee.chunk.js.map",
+    "977.1e6bdcde.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/977.1e6bdcde.chunk.js.map",
     "258.a59c98f4.chunk.js.map": "/crud-generator.beta.dimasnugroho673.github.io/static/js/258.a59c98f4.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.628b79d2.js"
+    "static/js/main.cff406b7.js"
   ]
 }

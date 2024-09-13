@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunklaraci_boilerplate_generator=self.webpackChunklaraci_boilerplate_generator||[]).push([[97],{97:(e,r,a)=>{a.r(r),a.d(r,{default:()=>s});var n=a(5043),l=(a(7950),a(6885),a(579));class t extends n.Component{constructor(e){super(e)}render(){return(0,l.jsx)("div",{children:"Halaman login"})}}const s=t}}]);
-//# sourceMappingURL=97.93e1f910.chunk.js.map
