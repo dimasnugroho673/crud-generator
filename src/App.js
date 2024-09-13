@@ -2,10 +2,11 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './App.css';
 import './utils/router';
-import { PrivateRoute } from './utils/helper';
+import { PrivateRoute, NonSessionRoute } from './utils/helper';
 
 const ProjectCanvas = React.lazy(() => import('../src/views/pages/project-canvas'));
 const Dashboard = React.lazy(() => import('../src/views/pages/dashboard'));
+const Login = React.lazy(() => import('../src/views/pages/login'));
 
 const loading = (
   <div className="pt-3 text-center">
@@ -18,7 +19,8 @@ function App() {
     <BrowserRouter>
     <React.Suspense fallback={loading}>
       <Switch>
-        <PrivateRoute path="/dashboard" name="Dashboard"  component={Dashboard}/>
+        <NonSessionRoute path="/auth/login" name="Login" component={Login} />
+        <PrivateRoute path="/dashboard" name="Dashboard" component={Dashboard} />
         {/* <Route path="/dashboard" name="Dashboard" render={props => <Dashboard {...props} />} /> */}
         <Route path="/project-canvas" name="Project canvas" render={props => <ProjectCanvas {...props} />} />
       </Switch>
