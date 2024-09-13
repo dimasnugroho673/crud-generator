@@ -10,7 +10,7 @@ export const NonSessionRoute = ({ component: Component, ...rest }) => (
 )
 
 export const GateDeauthorization = ({ component: Component, ...props }) => (
-    !checkIsLoggedIn() ? <Component {...props} /> : <Redirect to="/auth/login" />
+    !checkIsLoggedIn() ? <Component {...props} /> : window.location.href = "/dashboard"
 )
 
 export const GateAuthorization = ({ component: Component, ...props}) => (
@@ -28,6 +28,6 @@ export const checkIsLoggedIn = () => {
 }
 
 export const getToken = () => {
-    return localStorage.getItem("token") || null
-    // return true
+    // return localStorage.getItem("token") || null
+    return true
 }

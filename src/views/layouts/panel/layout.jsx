@@ -205,7 +205,7 @@ export default function PanelLayout(props) {
                 <li class="nav-item mt-4 ms-3 mb-4">
                   <a class="btn btn-lg btn-light rounded-pill fw-bold" href="/project-canvas">
                     <i class="bi bi-plus-lg force-bi-bold-1 me-2"></i>
-                    New
+                    Create
                   </a>
                 </li>
                 <li class="nav-item">
@@ -224,6 +224,17 @@ export default function PanelLayout(props) {
                     </span>
                     <span class="nav-link-title">
                       Dashboard
+                    </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/project-canvas">
+                    <span
+                      class="nav-link-icon d-md-none d-lg-inline-block">
+                      <i class="bi bi-file-earmark-code"></i>
+                    </span>
+                    <span class="nav-link-title">
+                      Project
                     </span>
                   </a>
                 </li>

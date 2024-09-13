@@ -412,7 +412,8 @@ class ProjectCanvas extends Component {
             results: [...prevState.results, {
                 fileName: 'modal.blade.php',
                 description: '',
-                code: modalHtmlString
+                code: modalHtmlString,
+                language: 'html'
             }]
         }))
 
@@ -421,7 +422,8 @@ class ProjectCanvas extends Component {
             results: [...prevState.results, {
                 fileName: 'index.blade.php',
                 description: '',
-                code: indexHtmlString
+                code: indexHtmlString,
+                language: 'html'
             }]
         }))
     }
@@ -705,7 +707,8 @@ class ProjectCanvas extends Component {
             results: [...prevState.results, {
                 fileName: this.generateFilename(this.state.projectCanvas.platform, 'controller'),
                 description: '',
-                code: mainLogic
+                code: mainLogic,
+                language: 'php'
             }]
         }))
         // return <textarea className="form-control" rows={10} cols={30}>{mainLogic}</textarea>
@@ -782,7 +785,7 @@ class ProjectCanvas extends Component {
         // }
     }
 
-    handleStartCanvas(e) {
+    handleStartCanvas() {
 
         this.setState({ isLoadingGeneratedResults: true })
 
@@ -847,14 +850,60 @@ class ProjectCanvas extends Component {
         }
     }
 
+    handleEndCanvas() {
+        const confirmEnd = window.confirm('Are you sure to delete this canvas?')
+
+        if (confirmEnd) {
+            this.resetCanvas()
+            alert('Canvas has been deleted!')
+        }
+
+        return
+    }
+
+    resetCanvas() {
+        this.setState({
+            errorMessage: null,
+            isLoadingGeneratedResults: false,
+            loadingGeneratedResults: this.fragmentMakeMeAwesome(),
+            results: [],
+            projectCanvas: {
+                createProjectFrom: null
+            },
+            blueprintFormHtmlString: ""
+        })
+
+        document.getElementById('form-create_project').reset()
+    }
+
+    // copy button
+    copyCode = (code) => {
+        const copy = () => {
+            const textField = document.createElement('textarea');
+            textField.innerText = code;
+            document.body.appendChild(textField);
+            textField.select();
+            document.execCommand('copy');
+            textField.remove();
+
+            // Alert the copied text
+            alert("Success copy code");
+        }
+
+        return <div>
+            <button className="btn btn-sm btn-primary px-2 py-1" onClick={e => copy()}><i class="bi bi-copy me-1"></i> Copy</button>
+        </div>
+    }
+
     // final results
     renderFinalResults() {
         return this.state.results.map(piece => {
             return <div className="form-group mb-3">
                 <label htmlFor="">{piece.fileName}</label>
-                <SyntaxHighlighter language="html" style={solarizedlight} showLineNumbers>
+                <SyntaxHighlighter language={piece.language} style={solarizedlight} showLineNumbers>
                     {piece.code}
                 </SyntaxHighlighter>
+                {this.copyCode(piece.code)}
             </div>
             // return <div className="form-group mb-3">
             //     <label htmlFor="">{piece.fileName}</label>
@@ -905,16 +954,18 @@ class ProjectCanvas extends Component {
 
                                 <div className="col-auto ms-auto d-print-none">
                                     <div className="btn-list">
-                                        <a href="#" className="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                                        <a href="#" className={`btn btn-primary d-none d-sm-inline-block ${this.state.results.length >= 1 ? 'disabled' : ''}`} data-bs-toggle="modal"
                                             data-bs-target="#modal-create-project">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24"
-                                                viewBox="0 0 24 24" strokeWidth={"2"} stroke="currentColor" fill="none"
-                                                strokeLinecap={"round"} strokeLinejoin={"round"}>
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M12 5l0 14" />
-                                                <path d="M5 12l14 0" />
-                                            </svg>
-                                            Create project
+                                            {this.state.results.length >= 1 ? 'End canvas to create new project' : <>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24"
+                                                    viewBox="0 0 24 24" strokeWidth={"2"} stroke="currentColor" fill="none"
+                                                    strokeLinecap={"round"} strokeLinejoin={"round"}>
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M12 5l0 14" />
+                                                    <path d="M5 12l14 0" />
+                                                </svg> Create project
+                                            </>
+                                            }
                                         </a>
                                     </div>
                                 </div>
@@ -959,7 +1010,7 @@ class ProjectCanvas extends Component {
                                         <h3>Final result {`(${this.state.results.length} file)`}</h3>
 
                                         <div class="alert alert-warning" role="alert">
-                                            Generated code isn't prettier, please pretty your code manually
+                                            Generated code isn't pretty, please prettier your code manually
                                         </div>
 
                                         {this.renderFinalResults()}
@@ -994,92 +1045,102 @@ class ProjectCanvas extends Component {
                     <div className="modal modal-blur fade" id="modal-create-project" tabIndex={"-1"} role="dialog" aria-hidden="true">
                         <div className="modal-dialog modal-lg" role="document">
                             <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">Create project</h5>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body">
-                                    <label className="form-label">Start with...</label>
-                                    <div className="form-selectgroup-boxes row mb-3">
-                                        <div className="col-lg-6">
-                                            <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'ui_wizard' } })}>
-                                                <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
-                                                <span className="form-selectgroup-label d-flex align-items-center p-3">
-                                                    <span className="me-3">
-                                                        <span className="form-selectgroup-check"></span>
+                                <form id="form-create_project">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Create project</h5>
+                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <label className="form-label">Start with...</label>
+                                        <div className="form-selectgroup-boxes row mb-3">
+                                            <div className="col-lg-6">
+                                                <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'ui_wizard' } })}>
+                                                    <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
+                                                    <span className="form-selectgroup-label d-flex align-items-center p-3">
+                                                        <span className="me-3">
+                                                            <span className="form-selectgroup-check"></span>
+                                                        </span>
+                                                        <span className="form-selectgroup-label-content">
+                                                            <span className="form-selectgroup-title strong mb-1">Simple</span>
+                                                            <span className="d-block text-muted">Create form and page using UI</span>
+                                                        </span>
                                                     </span>
-                                                    <span className="form-selectgroup-label-content">
-                                                        <span className="form-selectgroup-title strong mb-1">Simple</span>
-                                                        <span className="d-block text-muted">Create form and page using UI</span>
+                                                </label>
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'import_file' } })}>
+                                                    <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
+                                                    <span className="form-selectgroup-label d-flex align-items-center p-3">
+                                                        <span className="me-3">
+                                                            <span className="form-selectgroup-check"></span>
+                                                        </span>
+                                                        <span className="form-selectgroup-label-content">
+                                                            <span className="form-selectgroup-title strong mb-1">Advanced (file)</span>
+                                                            <span className="d-block text-muted">Create form and page using JSON File template</span>
+                                                        </span>
                                                     </span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'import_file' } })}>
-                                                <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
-                                                <span className="form-selectgroup-label d-flex align-items-center p-3">
-                                                    <span className="me-3">
-                                                        <span className="form-selectgroup-check"></span>
+                                                </label>
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'import_text' } })}>
+                                                    <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
+                                                    <span className="form-selectgroup-label d-flex align-items-center p-3">
+                                                        <span className="me-3">
+                                                            <span className="form-selectgroup-check"></span>
+                                                        </span>
+                                                        <span className="form-selectgroup-label-content">
+                                                            <span className="form-selectgroup-title strong mb-1">Advanced (text)</span>
+                                                            <span className="d-block text-muted">Create form and page using JSON text template</span>
+                                                        </span>
                                                     </span>
-                                                    <span className="form-selectgroup-label-content">
-                                                        <span className="form-selectgroup-title strong mb-1">Advanced (file)</span>
-                                                        <span className="d-block text-muted">Create form and page using JSON File template</span>
-                                                    </span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <label className="form-selectgroup-item" onClick={(e) => this.setState({ projectCanvas: { ...this.state.projectCanvas, createProjectFrom: 'import_text' } })}>
-                                                <input type="radio" name="report-type" value="1" className="form-selectgroup-input" />
-                                                <span className="form-selectgroup-label d-flex align-items-center p-3">
-                                                    <span className="me-3">
-                                                        <span className="form-selectgroup-check"></span>
-                                                    </span>
-                                                    <span className="form-selectgroup-label-content">
-                                                        <span className="form-selectgroup-title strong mb-1">Advanced (text)</span>
-                                                        <span className="d-block text-muted">Create form and page using JSON text template</span>
-                                                    </span>
-                                                </span>
-                                            </label>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="modal-body">
-                                    <div className="row">
-                                        {this.state.projectCanvas.createProjectFrom === 'import_text' && (
+                                    <div className="modal-body">
+                                        <div className="row">
+                                            {this.state.projectCanvas.createProjectFrom === 'import_text' && (
 
-                                            <div className="col-lg-12">
-                                                <a className="btn btn-outline-info mb-3" href={SampleProjectCanvasTemplateJson} download="sample-project-canvas-template-json.json"><i class="bi bi-filetype-json me-2"></i> Download sample data JSON</a>
+                                                <div className="col-lg-12">
+                                                    <a className="btn btn-outline-info mb-3" href={SampleProjectCanvasTemplateJson} download="sample-project-canvas-template-json.json"><i class="bi bi-filetype-json me-2"></i> Download sample data JSON</a>
 
-                                                <div>
-                                                    <label className="form-label">Paste your JSON template here</label>
-                                                    <textarea id="create-import_text" className="form-control" rows="3"></textarea>
+                                                    <div>
+                                                        <label className="form-label">Paste your JSON template here</label>
+                                                        <textarea id="create-import_text" className="form-control" rows="3"></textarea>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
 
-                                        {this.state.projectCanvas.createProjectFrom === 'import_file' && (
-                                            <div className="col-lg-12">
-                                                <div>
-                                                    <label className="form-label">Import your JSON file here</label>
-                                                    <input type="file" className="form-control" id="create-import_file" accept=".json" />
+                                            {this.state.projectCanvas.createProjectFrom === 'import_file' && (
+                                                <div className="col-lg-12">
+                                                    <div>
+                                                        <label className="form-label">Import your JSON file here</label>
+                                                        <input type="file" className="form-control" id="create-import_file" accept=".json" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
 
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <a href="#" className="btn btn-link link-secondary" data-bs-dismiss="modal">
-                                        Cancel
-                                    </a>
-                                    <a href="#" className="btn btn-primary ms-auto" id="btn-create-fragment" onClick={(e) => this.handleStartCanvas()}>{this.state.loadingGeneratedResults}</a>
-                                </div>
+                                    <div className="modal-footer">
+                                        <a href="#" className="btn btn-link link-secondary" data-bs-dismiss="modal">
+                                            Cancel
+                                        </a>
+                                        <a href="#" className="btn btn-primary ms-auto" id="btn-create-fragment" onClick={e => this.handleStartCanvas()}>{this.state.loadingGeneratedResults}</a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {this.state.results.length >= 1 ? (<div class="position-relative">
+                    <div class="position-absolute bottom-0 end-0 me-4 mb-4">
+                        <button className="btn btn-lg btn-secondary rounded-pill" onClick={e => this.handleEndCanvas()}><i class="bi bi-x-lg me-2"></i> End this session</button>
+                    </div>
+                </div>) : null}
+
+
             </PanelLayout>
         )
     }
