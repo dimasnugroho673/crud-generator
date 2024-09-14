@@ -1,6 +1,7 @@
 
 
 import { Route, Redirect } from "react-router-dom";
+import Constant from "./constant";
 
 // harus return jsx!!
 export const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -30,20 +31,8 @@ export const checkIsLoggedIn = () => {
 }
 
 export const getToken = () => {
-    return localStorage.getItem("credentials") || null
+    return localStorage.getItem(Constant.credentialKey) || null
     // return true
-}
-
-export default class UrlHelper {
-    static basename = "/crud-generator"
-
-    static urlWrapper(url) {
-        if (process.env.NODE_ENV === 'development') {
-            return url
-        } else if (process.env.NODE_ENV === 'production') {
-            return `${this.basename}${url}` 
-        }
-    }   
 }
 
 

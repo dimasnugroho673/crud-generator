@@ -1,6 +1,39 @@
 import { Link } from 'react-router-dom';
+import Constant from '../../../utils/constant';
+import Credentials from '../../../utils/credential';
+import styled from 'styled-components';
+import { Modal, Button } from "react-bootstrap";
+import { useState } from 'react';
+import UrlHelper from '../../../utils/url-helper';
 
 export default function PanelLayout(props) {
+
+  const [showModalCredential, setShowModalCredential] = useState(false)
+  const [signOutLoading, setSignOutLoading] = useState(false)
+  const handleCloseModalCredential = () => setShowModalCredential(false)
+  const handleShowModalCredential = () => setShowModalCredential(true)
+
+  const handleSignOut = () => {
+    setSignOutLoading(true)
+
+    setTimeout(() => {
+      if (Credentials.clear()) {
+        setShowModalCredential(false)
+        setSignOutLoading(false)
+
+        window.location.href = UrlHelper.urlWrapper("/")
+      }
+    }, 2000);
+  }
+
+  const CardCredential = styled.div`
+    border-radius: 12px;
+    &:hover {
+      cursor: pointer;
+      filter: brightness(85%);
+    }
+  `
+
   return (
     <div>
       <div class="page">
@@ -12,7 +45,7 @@ export default function PanelLayout(props) {
             </button>
             <h1 class="navbar-brand navbar-brand-autodark">
               <a href=".">
-                <img src="./static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image" />
+                <img src={process.env.PUBLIC_URL + '/logo-fullsize.png'} width="110" alt={Constant.appName} class="" />
               </a>
             </h1>
             <div class="navbar-nav flex-row d-lg-none">
@@ -204,7 +237,20 @@ export default function PanelLayout(props) {
             </div>
             <div class="collapse navbar-collapse" id="sidebar-menu">
               <ul class="navbar-nav pt-lg-3">
-                <li class="nav-item mt-4 ms-3 mb-4">
+                <li class="nav-item m-3">
+                  <CardCredential className='border border-opacity-25 border-secondary' onClick={handleShowModalCredential}>
+                    <div className="d-flex align-items-center p-3 gap-2">
+                      <div className='flex-shrink-0'>
+                        <img className='rounded-5' src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${Credentials.get().fullname}`} alt="" style={{ width: '40px' }} />
+                      </div>
+                      <div className='d-flex flex-column'>
+                        <h4 className='fw-bolder m-0 p-0'>{Credentials.get().fullname}</h4>
+                        <p className='m-0 p-0'>{Credentials.get().organization}</p>
+                      </div>
+                    </div>
+                  </CardCredential>
+                </li>
+                <li class="nav-item m-4">
                   <Link class="btn btn-lg btn-light rounded-pill fw-bold" to="/project-canvas">
                     <i class="bi bi-plus-lg force-bi-bold-1 me-2"></i>
                     Create
@@ -240,7 +286,7 @@ export default function PanelLayout(props) {
                     </span>
                   </Link>
                 </li>
-                <li class="nav-item dropdown">
+                {/* <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                     data-bs-auto-close="false" role="button" aria-expanded="false">
                     <span
@@ -269,13 +315,25 @@ export default function PanelLayout(props) {
                       </div>
                     </div>
                   </div>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
         </aside>
 
         {props.children}
+
+        <Modal className='modal-modern modal-credential' show={showModalCredential} onHide={handleCloseModalCredential}>
+          <Modal.Header>
+            <Modal.Title className='mx-auto text-muted'>{Credentials.get().email}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={handleSignOut} className={`rounded-pill ${signOutLoading ? 'disabled' : ''}`}>
+              {signOutLoading ? 'Signin out...' : 'Sign out'}
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
       </div>
     </div>
