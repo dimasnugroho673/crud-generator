@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunklaraci_boilerplate_generator=self.webpackChunklaraci_boilerplate_generator||[]).push([[889],{7832:(e,r,a)=>{a.d(r,{A:()=>t});class t{static urlWrapper(e){return`${this.basename}${e}`}}t.basename="/crud-generator"},1889:(e,r,a)=>{a.r(r),a.d(r,{default:()=>c});var t=a(5043),n=a(1688),s=(a(7950),a(6885),a(7832),a(579));class o extends t.Component{constructor(e){super(e)}componentDidMount(){}render(){return(0,s.jsx)(s.Fragment,{children:(0,s.jsx)(n.rd,{to:"/auth/login"})})}}const c=o}}]);
+//# sourceMappingURL=889.2d78434e.chunk.js.map
